@@ -11,3 +11,30 @@ canvas{
     height: 100px;
     margin:10px;
 }
+
+header{
+    display: flex;
+    justify-content: space-between;
+}
+.logo{
+    /* text-align: center; */
+}
+.logo-img{
+    width: 200px;
+}
+
+.header-btn{
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.meme-editor{
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.canvas-container{
+    flex-basis: 70%;
+}
+
+

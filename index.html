@@ -9,7 +9,13 @@
 </head>
 <body onload="onInit()">
     <header>
+        <div class="logo"><img class="logo-img" src="/meme-imgs(square)/LOGO.png" alt=""></div>
 
+        <div class="buttons">
+            <button class="header-btn gallery-btn">Gallery</button>
+            <button class="header-btn Memes-btn">Memes</button>
+            <button class="header-btn About-btn">About</button>
+        </div>
     </header>
     <section class="image-gallery"></section>
     <section class="meme-editor">
@@ -20,9 +26,11 @@
         <div class="meme-controls">
             <input class="text-input" type="text" placeholder="Your Text" oninput="onSetLineText(this.value, 0)">
             <input type="color" oninput="onSetTextColor(this.value)">
+            <input type="color" oninput="onSetStrokeColor(this.value)">
             <input type="range" title="" oninput="onSetTextSize(this.value)">
             <button onclick="onAddLine()">+</button>
             <button onclick="onChangeFocus()">⇅</button>
+            <button onclick="onImFlexible()">I'm Flexible</button>
         </div>
     </section>
 
@@ -30,5 +38,7 @@
     <script src="js/meme.controller.js"></script>
     <script src="js/gallery.controller.js"></script>
     <script src="js/services/meme.service.js"></script>
+    <script src="js/services/storage.service.js"></script>
+    <script src="js/services/util.service.js"></script>
 </body>
 </html>
