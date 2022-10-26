@@ -3,7 +3,7 @@ var gImgs = [
     // {id: 1, url: 'meme-imgs(square)/1.jpg', keywords: ['funny', 'cat']},
     // {id: 2, url: 'meme-imgs(square)/2.jpg', keywords: ['funny', 'cat']}
 ];
-
+var gId = 0
 var gMeme = {
  selectedImgId: 1,
  selectedLineIdx: 0,
@@ -50,7 +50,7 @@ function createImages(){
 
 function createImage(url, keysArray){
     return {
-        id: +makeId(),
+        id: gId++,
         url,
         keywords: keysArray
     }
@@ -86,6 +86,7 @@ function setTextColor(color, idx){
 }
 
 function setStrokeColor(color, idx){
+    console.log(idx);
     gMeme.lines[idx].stroke = color
 }
 
@@ -116,4 +117,27 @@ function setFocus(){
            return line.isFocused = true
         } else return line.isFocused = false
     })
+}
+
+function saveMeme(meme){
+    console.log(meme);
+    var memory = loadFromStorage('saved-memes')
+    memory.push(meme)
+    console.log(memory);
+    saveToStorage('saved-memes', memory)
+}
+
+function convertCanvasToImage() {
+    let image = new Image();
+    console.log(gElCanvas.toDataURL());
+    image.src = gElCanvas.toDataURL();
+    console.log(image);
+    return image;
+  }
+
+
+function setMeme(id){
+    var memory = loadFromStorage('saved-memes')
+    var meme = memory.find(meme=>meme.selectedImgId === id)
+    gMeme = meme
 }
