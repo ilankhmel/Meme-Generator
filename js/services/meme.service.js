@@ -8,9 +8,10 @@ var gMeme = {
  lines: [
  {
  txt: 'I sometimes eat Falafel',
- size: 20,
+ size: 30,
  align: 'left',
- color: 'red'
+ color: 'red',
+ isFocused: false,
  }
  ]
 }
@@ -52,9 +53,22 @@ function addLine(){
     gMeme.lines.push(
         {
             txt: 'I sometimes eat Falafel',
-            size: 20,
+            size: 30,
             align: 'left',
             color: 'red'
             }
     )
+}
+
+function getNumOfLines(){
+    return gMeme.lines.length
+}
+
+
+function setFocus(){
+    gMeme.lines.forEach((line, idx)=>{
+        if(idx === gFocus){
+           return line.isFocused = true
+        } else return line.isFocused = false
+    })
 }

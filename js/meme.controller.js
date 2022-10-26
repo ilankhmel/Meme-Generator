@@ -1,11 +1,13 @@
 var gElCanvas
 var gCtx
-var gElLineId = 0
+// var gElLineId = 0
+var gFocus = 0
 
 function onInit() {
     gElCanvas = document.querySelector('canvas')
     gCtx = gElCanvas.getContext('2d')
     renderGallery()
+    setFocus()
 }
 
 function renderMeme(){
@@ -18,26 +20,37 @@ function renderMeme(){
 
     setTimeout(()=>{
         gCtx.drawImage(img, 0, 0, gElCanvas.width, gElCanvas.height)
-        lines.forEach(line=>{
-            var {txt, size, align, color} = line
-          return  drawText(txt, size, align, color) 
+        lines.forEach((line, idx)=>{
+            var {txt, size, align, color, isFocused} = line
+          return  drawText(txt, size, align, color, idx, isFocused) 
         })
     },30)
 }
-function drawText(txt, size, align, color){
-    console.log(txt);
+function drawText(txt, size, align, color, idx, isFocused){
+    console.log(idx);
+
     gCtx.lineWidth = 2
     gCtx.strokeStyle = 'black'
     gCtx.fillStyle = color
     gCtx.textAlign = `${align}`
     gCtx.font = `${size}px Arial`
-    if(gElLineId === 0){
+
+    if(isFocused){
+        gCtx.strokeStyle = 'cyan'
+    }
+
+    if(idx === 0){
         gCtx.fillText(txt, gElCanvas.width /4,  gElCanvas.height /4)
         gCtx.strokeText(txt, gElCanvas.width /4,  gElCanvas.height /4)
-    }else if(gElLineId === 1){
-        gCtx.fillText(txt, gElCanvas.width /0.25,  gElCanvas.height /0.25)
-        gCtx.strokeText(txt, gElCanvas.width /4,  gElCanvas.height /4)
+    }else if(idx === 1){
+        console.log('here');
+        gCtx.fillText(txt, 300, 300)
+        gCtx.strokeText(txt, 300, 300)
+    }else{
+        gCtx.fillText(txt, gElCanvas.width /2,  gElCanvas.height /2)
+        gCtx.strokeText(txt, gElCanvas.width /2,  gElCanvas.height /2)
     }
+
    
 }
 function makeImg(meme){
@@ -48,9 +61,8 @@ function makeImg(meme){
 }
 
 
-function onSetLineText(newText, id){
-
-    setLineText(newText, +id)
+function onSetLineText(newText){
+    setLineText(newText, gFocus)
     renderMeme()
 }
 
@@ -65,13 +77,26 @@ function onSetTextSize(size){
 }
 
 function onAddLine(){
-    gElLineId++
+    // gElLineId++
+    document.querySelector('.text-input').value = ''
     addLine()
-    renderLine()
+    onChangeFocus()
+    // renderLine()
 
 }
 
-function renderLine(){
-    var str = `<input type="text" placeholder="Your Text" oninput="onSetLineText(${(this.value)}, '${gElLineId}')">`
-    document.querySelector(".meme-controls").innerHTML += str
+// function renderLine(){
+//     var str = `<input type="text" placeholder="Your Text" oninput="onSetLineText((this.value), '${gElLineId}')">`
+//     document.querySelector(".meme-controls").innerHTML += str
+// }
+
+function onChangeFocus(){
+    var numOfLines = getNumOfLines()
+    gFocus++
+    if(gFocus > numOfLines - 1) gFocus = 0
+    const {lines} = getMeme()
+    const {txt} = lines[gFocus]
+    document.querySelector('.text-input').value = txt
+    setFocus()
+    renderMeme()
 }
