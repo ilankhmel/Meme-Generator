@@ -8,7 +8,11 @@ function renderGallery(){
 
 function onImgSelect(id){
     console.log(id);
+    document.querySelector('.text-input').value = ''
     setImg(id)
+    var meme = getMeme()
+    meme.lines[0].txt = ''
+    showEditor()
     renderMeme()
 }
 
@@ -17,4 +21,13 @@ function onSetFilterBy(val){
     setFilterBy(val)
     renderGallery()
     // document.querySelector('.filter').value = ''
+}
+
+function onShowMenu(){
+    document.querySelector('.buttons').classList.toggle('open')
+}
+
+function onSetLineWidth(){
+    setLineWidth()
+    renderMeme()
 }

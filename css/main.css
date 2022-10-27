@@ -1,30 +1,65 @@
 body {
     background-color: rgb(224, 224, 224);
+    overflow-x: hidden;
+    box-sizing: border-box;
 }
 
 canvas {
     background-color: white;
 }
 
+.image-gallery {
+    text-align: center;
+}
+
 .gallery-img {
-    width: 100px;
-    height: 100px;
+    width: 200px;
+    height: 200px;
     margin: 10px;
+}
+.gallery-img:hover {
+   border: 3px solid gray;
+   box-sizing: border-box;
+   cursor: pointer;
 }
 
 .saved-meme-img {
     width: 100px;
-    height: 100px;
+    height: auto;
     margin: 10px;
 }
-
+.share-link{
+    padding: 10px;
+    margin: 10px;
+    border-radius: 5px;
+    background-color: rgb(255, 149, 0);
+    border: none;
+    color: white;
+    
+}
 header {
     display: flex;
     justify-content: space-between;
+    align-items: center;
+    background-color: rgb(255, 149, 0);
+}
+.controls-row4{
+    display: flex;
+    flex-direction: column;
+    margin: 2px;
+    justify-content: center;
+    align-items: center;
+}
+
+.controls-row4>*{
+    margin: 4px ;
 }
 
 .logo {
     /* text-align: center; */
+    color: white;
+    margin-left: 30px;
+
 }
 
 .logo-img {
@@ -32,17 +67,49 @@ header {
 }
 
 .header-btn {
-    padding: 10px;
-    border-radius: 10px;
+    padding: 31px;
+    /* padding-bottom: 30px; */
+    background-color: transparent;
+    border: none;
+    border-bottom: 3px solid rgb(255, 149, 0);
+    color: white;
+}
+
+.header-btn:hover {
+    border-bottom: 3px solid black;
+    color: black;
+
 }
 
 .meme-editor {
-    display: flex;
+    /* display: flex; */
     justify-content: space-evenly;
+    display: none;
+}
+
+.saved-memes {
+    display: none;
 }
 
 .canvas-container {
-    flex-basis: 70%;
+    /* flex-basis: 70%; */
+}
+
+canvas {
+    border: 5px solid black;
+    width: 300px;
+    height: 300px;
+}
+
+.meme-controls {
+    flex-basis: 40%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.menu-btn {
+    display: none;
 }
 
 @media(max-width: 670px) {
@@ -53,6 +120,128 @@ header {
     }
 }
 
-datalist{
+@media(max-width:775px) {
+    .meme-editor {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+@media(max-width:555px) {
+    .buttons {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        right: 0;
+        top: 89px;
+        background-color: black;
+        transform: translateX(100%);
+        /* transform: translateY(89px); */
+
+        transition: transform .6s;
+    }
+
+    .menu-btn {
+        display: block;
+    }
+
+    .buttons.open {
+        transform: translateX(0%);
+        /* transform: translateY(89px); */
+
+    }
+
+    .header-btn:hover {
+        border-bottom: 3px solid rgb(255, 149, 0);
+        color: gray;
+
+    }
+}
+
+datalist {
     /* display: block; */
+}
+
+.search-bar {
+    background-color: white;
+    display: flex;
+
+}
+
+.filter {
+    margin: 10px;
+}
+
+
+/* footer */
+
+footer {
+    background-color: rgb(255, 149, 0);
+    height: 22vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.footer-logo {
+    margin-top: 0;
+    font-size: 20px;
+    color: white;
+}
+
+.about-me {
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    /* height: 30vw; */
+}
+
+.profile-img {
+    width: 200px;
+    margin: 50px;
+    border-radius: 50%;
+}
+
+.about-details {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.editor-btn {
+    padding: 5px;
+    border: none;
+    background-color: white;
+    border-radius: 5px;
+    width: 40px;
+    margin: 5px;
+    cursor: pointer;
+}
+
+.text-input {
+    padding: 10px;
+    border: none;
+    margin: 10px;
+    border-radius: 10px;
+    /* width: 100%; */
+}
+
+.social-btn{
+    border: none;
+    background-color: white;
+    font-size: 30px;
+}
+.social-btn:hover{
+    border: none;
+    background-color: white;
+    font-size: 30px;
+    color: gray;
+    cursor: pointer;
+}
+
+.saved-memes-title{
+    text-align: center;
+    font-size: 30px;
 }

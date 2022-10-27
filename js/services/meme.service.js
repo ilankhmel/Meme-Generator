@@ -11,11 +11,14 @@ var gMeme = {
  lines: [
  {
  txt: 'My Text',
- size: 50,
+ size: 70,
  align: 'left',
  color: 'white',
  stroke: 'black',
  isFocused: false,
+ isDrag: false,
+ linewidth: 1,
+ font: 'Arial',
  }
  ]
 }
@@ -97,13 +100,18 @@ function setTextSize(size, idx){
 }
 
 function addLine(txt = ''){
+    var idx = gMeme.lines.length - 1
     gMeme.lines.push(
         {
             txt,
             size: 50,
             align: 'left',
             color: 'white',
-            stroke: 'black'
+            stroke: 'black',
+            isFocused: false,
+            isDrag: false,
+            linewidth: 1,
+            font: 'Arial',
             }
     )
 }
@@ -146,4 +154,64 @@ function setMeme(idx){
 
 function setFilterBy(val){
     gFilter = val
+}
+
+function whatIsClicked(clickedPos){
+    return gMeme.lines.findIndex((line, idx)=>isTextClicked(clickedPos, idx))
+     
+}
+//Check if the click is inside the Text 
+function isTextClicked(clickedPos, idx) {
+    // const { pos } = gCircle
+    var linePos = gMeme.lines[idx].pos
+    // console.log('linePos', linePos);
+    var spaceTaken = gMeme.lines[idx].txt.length * gMeme.lines[idx].size
+    // Calc the distance between two dots
+    // const distance = Math.sqrt((pos.x - clickedPos.x) ** 2 + (pos.y - clickedPos.y) ** 2)
+    //If its smaller then the radius of the circle we are inside
+    var wordSpaceOnCanvas = linePos.x + spaceTaken
+
+    // console.log('lineX', linePos.x, 'SpaceTaken', wordSpaceOnCanvas);
+
+    if(clickedPos.x >= linePos.x -200 && clickedPos.x <= wordSpaceOnCanvas && clickedPos.y  >= linePos.y -200 && clickedPos.y  <= linePos.y ){
+        return true
+    }
+    return false
+  }
+
+function setTextDrag(bool, idx){
+    gMeme.lines[idx].isDrag = bool
+}
+
+
+
+//Move the Text in a delta, diff from the pervious pos
+function moveText(dx, dy, idx) {
+    console.log(gMeme.lines[idx].pos.x);
+    gMeme.lines[idx].pos.x += dx
+    console.log(gMeme.lines[idx].pos.x);
+    gMeme.lines[idx].pos.y += dy 
+  }
+
+
+// function findLineIdxByText(txt){
+//     return gMeme.lines.find(line=>line.txt === txt)
+// }
+
+function changeAlign(dir){
+    gMeme.lines.forEach(line=>line.align = dir)
+}
+
+function deleteLine(){
+    gMeme.lines.forEach((line)=>line.txt = '')
+    
+}
+
+function setLineWidth(){
+    gMeme.lines.forEach((line)=>line.linewidth++)
+}
+
+function setFont(val){
+    gMeme.lines.forEach((line)=>line.font = val)
+
 }
