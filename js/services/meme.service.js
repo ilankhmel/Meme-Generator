@@ -4,38 +4,39 @@ var gImgs = [
     // {id: 2, url: 'meme-imgs(square)/2.jpg', keywords: ['funny', 'cat']}
 ];
 var gId = 0
+var gFilter = ''
 var gMeme = {
  selectedImgId: 1,
  selectedLineIdx: 0,
  lines: [
  {
  txt: 'My Text',
- size: 30,
+ size: 50,
  align: 'left',
- color: 'red',
+ color: 'white',
  stroke: 'black',
  isFocused: false,
  }
  ]
 }
 var keyMap = {
-    1: ['funny, trump'],
-    2: ['animals, dogs'],
-    3: ['animals, dogs, babys'],
-    4: ['animals, cats'],
-    5: ['funny, babys'],
-    6: ['funny, science'],
-    7: ['funny, babys'],
+    1: ['funny', 'trump'],
+    2: ['animals', 'dogs'],
+    3: ['animals', 'dogs', 'babys'],
+    4: ['animals', 'cats'],
+    5: ['funny', 'babys'],
+    6: ['funny', 'science'],
+    7: ['funny', 'babys'],
     8: ['funny'],
-    9: ['evil, baby'],
-    10: ['funny, obama, politics'],
-    11: ['funny, basketball'],
-    12: ['funny, tv Shows'],
-    13: ['funny, leonardo decaprio'],
+    9: ['evil', 'baby'],
+    10: ['funny', 'obama', 'politics'],
+    11: ['funny', 'basketball'],
+    12: ['funny', 'tv shows'],
+    13: ['funny', 'leonardo decaprio'],
     14: ['movies'],
     15: ['movies'],
-    16: ['funny, movies'],
-    17: ['politics, putin'],
+    16: ['funny', 'movies'],
+    17: ['politics', 'putin'],
     18: ['movies'],
 }
 function createImages(){
@@ -62,6 +63,7 @@ function getMeme(){
 }
 
 function getImages(){
+    return gImgs.filter((img)=> img.keywords.join('').includes(gFilter))
     return gImgs
 }
 
@@ -98,9 +100,9 @@ function addLine(txt = ''){
     gMeme.lines.push(
         {
             txt,
-            size: 30,
+            size: 50,
             align: 'left',
-            color: 'red',
+            color: 'white',
             stroke: 'black'
             }
     )
@@ -136,8 +138,12 @@ function convertCanvasToImage() {
   }
 
 
-function setMeme(id){
+function setMeme(idx){
     var memory = loadFromStorage('saved-memes')
-    var meme = memory.find(meme=>meme.selectedImgId === id)
+    var meme = memory[idx]
     gMeme = meme
+}
+
+function setFilterBy(val){
+    gFilter = val
 }

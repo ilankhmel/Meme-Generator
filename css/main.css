@@ -52,3 +52,7 @@ header {
         flex-direction: column;
     }
 }
+
+datalist{
+    /* display: block; */
+}

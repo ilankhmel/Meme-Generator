@@ -11,3 +11,10 @@ function onImgSelect(id){
     setImg(id)
     renderMeme()
 }
+
+function onSetFilterBy(val){
+    console.log(val);
+    setFilterBy(val)
+    renderGallery()
+    // document.querySelector('.filter').value = ''
+}

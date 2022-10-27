@@ -12,7 +12,7 @@ function onInit() {
     resizeCanvas()
     window.addEventListener('resize', resizeCanvas)
 
-    if(!loadFromStorage('saved-memes')){
+    if (!loadFromStorage('saved-memes')) {
         saveToStorage('saved-memes', [])
     }
 
@@ -25,8 +25,7 @@ function renderMeme() {
     console.log(meme);
     var img = makeImg(meme)
     const { selectedImgId: id, selectedLineIdx: lineIdx, lines } = meme
-    // const {txt, size, align, color} = lines[0]
-    // var text = meme.lines[0].txt
+
 
     setTimeout(() => {
         gCtx.drawImage(img, 0, 0, gElCanvas.width, gElCanvas.height)
@@ -39,27 +38,27 @@ function renderMeme() {
 function drawText(txt, size, align, color, idx, isFocused, stroke) {
     console.log(idx);
 
-    gCtx.lineWidth = 2
+
+
+    gCtx.lineWidth = 1
     gCtx.strokeStyle = `${stroke}`
     gCtx.fillStyle = color
     gCtx.textAlign = `${align}`
-    // gCtx.textAlign = `right`
     gCtx.font = `${size}px Arial`
 
-
     if (isFocused) {
-        gCtx.strokeStyle = 'cyan'
+        txt.strokeStyle = 'cyan'
     }
-    
+
     var diff
     switch (align) {
         case 'left':
             diff = gElCanvas.width / 4 * -1
             break;
-            case 'right':
-                console.log('here');
-                diff = gElCanvas.width / 4
-                break;
+        case 'right':
+            console.log('here');
+            diff = gElCanvas.width / 4
+            break;
         case 'center':
             diff = 0
             break;
@@ -75,28 +74,54 @@ function drawText(txt, size, align, color, idx, isFocused, stroke) {
         console.log(diff);
         gCtx.fillText(txt, x, gElCanvas.height / 5)
         gCtx.strokeText(txt, x, gElCanvas.height / 5)
-       
+
+        if (isFocused) {
+            gCtx.beginPath()
+            gCtx.lineWidth = 5
+            gCtx.moveTo(x, gElCanvas.height / 5 + size / 2)
+            gCtx.lineTo(x + 100, gElCanvas.height / 5 + size / 2)
+            gCtx.strokeStyle = 'cyan'
+            gCtx.stroke()
+        } 
+        else {
+            gCtx.beginPath()
+            gCtx.stroke()
+        }
+
     } else if (idx === 1) {
         gCtx.fillText(txt, x, gElCanvas.height - gElCanvas.height / 5)
         gCtx.strokeText(txt, x, gElCanvas.height - gElCanvas.height / 5)
+
+        if(isFocused) {
+            gCtx.beginPath()
+            gCtx.lineWidth = 5
+            gCtx.moveTo(x, gElCanvas.height - gElCanvas.height / 5 + 10)
+            gCtx.lineTo(x + 100, gElCanvas.height - gElCanvas.height / 5 + 10)
+            gCtx.strokeStyle = 'cyan'
+            gCtx.stroke()
+        } else {
+            gCtx.beginPath()
+            gCtx.stroke()
+        }
+
 
         
     } else {
         gCtx.fillText(txt, gElCanvas.width / 2, gElCanvas.height / 2)
         gCtx.strokeText(txt, gElCanvas.width / 2, gElCanvas.height / 2)
+
+        if(isFocused) {
+            gCtx.beginPath()
+            gCtx.lineWidth = 5
+            gCtx.moveTo(x, gElCanvas.width / 2, gElCanvas.height / 2 + 10)
+            gCtx.lineTo(x + 100, gElCanvas.width / 2, gElCanvas.height / 2)
+            gCtx.strokeStyle = 'cyan'
+            gCtx.stroke()
+        } else {
+            gCtx.beginPath()
+            gCtx.stroke()
+        }
     }
-    
-    console.log(isFocused);
-    
-    // if (isFocused) {
-    //     console.log('here');
-    //     gCtx.beginPath()
-    //     gCtx.lineWidth = 5
-    //     gCtx.moveTo(x, gElCanvas.height / 5 + size/2)
-    //     gCtx.lineTo(x + 100, gElCanvas.height / 5 + size/2)
-    //     gCtx.strokeStyle = 'cyan'
-    //     gCtx.stroke()
-    //     }
 
 
 }
@@ -129,12 +154,10 @@ function onSetTextSize(size) {
 }
 
 function onAddLine() {
-    // gElLineId++
     document.querySelector('.text-input').value = ''
     addLine()
     onChangeFocus()
-    // renderLine()
-
+    renderMeme()
 }
 
 function onChangeFocus() {
@@ -145,6 +168,7 @@ function onChangeFocus() {
     const { txt } = lines[gFocus]
     document.querySelector('.text-input').value = txt
     setFocus()
+    console.log(gMeme);
     renderMeme()
 }
 
@@ -179,7 +203,7 @@ function onImFlexible() {
     var randId = getRandImgId()
     var randStr = getRandString()
 
-    
+
     setImg(randId)
     setLineText(randStr, 0)
     setTextSize(gerRandStringSize(randStr), 0)
@@ -204,24 +228,26 @@ function onImFlexible() {
     renderMeme()
 }
 
-function onSaveMeme(){
+function onSaveMeme() {
     var dataURL = gElCanvas.toDataURL()
     var meme = getMeme()
     meme['dataURL'] = dataURL
-    // console.log(meme);
     saveMeme(meme)
     renderSavedMemes()
 }
 
-function renderSavedMemes(){
+function renderSavedMemes() {
     var savedMemes = loadFromStorage('saved-memes')
-    var strHTMLs = savedMemes.map(meme=>
-       `<img class="saved-meme-img" src="${meme.dataURL}" onclick="onSetAndEditSavedMeme(${meme.selectedImgId})">` 
-        )
-        document.querySelector('.saved-memes').innerHTML = strHTMLs
+    var strHTMLs = savedMemes.map((meme, idx) =>
+        `<img class="saved-meme-img" src="${meme.dataURL}" onclick="onSetAndEditSavedMeme(${idx})">`
+    )
+    document.querySelector('.saved-memes').innerHTML = strHTMLs.join('')
+
 }
 
-function onSetAndEditSavedMeme(id){
-    setMeme(id)
+function onSetAndEditSavedMeme(idx) {
+    setMeme(idx)
     renderMeme()
+    const meme = getMeme()
+    document.querySelector('.text-input').value = meme.lines[0].txt
 }
