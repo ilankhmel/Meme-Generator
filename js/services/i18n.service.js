@@ -58,6 +58,14 @@ var gTrans = {
         en: 'My Memes',
         he: 'המימז שלי',
     },
+    'upload': {
+        en: 'Upload',
+        he: ' העלאה',
+    },
+    'share-us': {
+        en: 'Share Us!',
+        he: ' שתפו אותנו!',
+    },
 }
 
 
