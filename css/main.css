@@ -1,6 +1,9 @@
-body {
-    background-color: rgb(224, 224, 224);
+html, body {
     overflow-x: hidden;
+}
+body {
+    position: relative;
+    background-color: rgb(224, 224, 224);
     box-sizing: border-box;
 }
 
@@ -207,7 +210,19 @@ footer {
     font-size: 25px;
 }
 
+.categorys{
+    display: flex;
+    flex-direction: row;
+}
 
+
+@media(max-width:1025px) {
+    .search-bar{
+     flex-direction: column;
+     padding: 20px;
+    }
+
+}
 @media(max-width:775px) {
     .about-me{
         display: none;
@@ -220,42 +235,7 @@ footer {
         align-items: center;
     }
 }
-@media(max-width: 670px) {
-
-    .meme-editor {
-        display: flex;
-        flex-direction: column;
-    }
-    /* .about-me{
-        display: none;
-    } */
-}
-@media(max-width:560px){
-    
-    canvas{
-        width: 280px;
-    }
-}
-
-.categorys{
-    display: flex;
-    flex-direction: row;
-}
-.category{
-    margin: 5px;
-    color: orange;
-    font-size: 20px;
-}
-
-.rtl{
-    direction: rtl;
-}
-.ltr{
-    direction: ltr;
-}
-
-
-@media(max-width:555px) {
+@media(max-width:755px) {
     .buttons {
         display: flex;
         flex-direction: column;
@@ -294,3 +274,36 @@ footer {
         height: auto;
     }
 }
+@media(max-width: 670px) {
+  
+    
+     .about-me{
+        display: none;
+    } 
+    .categorys{
+        display: none;
+    }
+    .inputs{
+        display: none;
+    }
+}
+@media(max-width:560px){
+
+    canvas{
+        width: 280px;
+    }
+}
+
+.category{
+    margin: 5px;
+    color: orange;
+    font-size: 20px;
+}
+
+.rtl{
+    direction: rtl;
+}
+.ltr{
+    direction: ltr;
+}
+

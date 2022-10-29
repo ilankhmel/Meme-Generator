@@ -25,10 +25,9 @@
             <button data-trans="gallery" class="header-btn gallery-btn" onclick="onShowGallery()">Gallery</button>
             <button data-trans="my-memes" class="header-btn Memes-btn" onclick="onShowMemes()">My Memes</button>
         </div>
-        <button class="header-btn menu-btn" onclick="onShowMenu()"><i class="fa-solid fa-bars"></i></button>
-
-
-
+        
+        
+        
         <datalist id="filter">
             <option value="babys"></option>
             <option value="funny"></option>
@@ -42,28 +41,38 @@
             <option value="cats"></option>
         </datalist>
         <!-- </label> -->
-
+        
         
         <div class="inputs">
             <input
-              type="file"
-              class="file-input btn"
-              name="image"
-              onchange="onImgInput(event)"
+            type="file"
+            class="file-input btn"
+            name="image"
+            onchange="onImgInput(event)"
             />
+            </div>
+            <button class="header-btn menu-btn" onclick="onShowMenu()"><i class="fa-solid fa-bars"></i></button>
+        </header>
+        <div class="search-bar">
+            <div class="search">
+                
+                <label for="" data-trans="search">
+                    Search:
+                </label>
+                <input class="filter" list="filter" oninput="onSetFilterBy(this.value)">
+            </div>
             
-    </header>
-    <div class="search-bar">
-        <label for="" data-trans="search">
-            Search:
-        </label>
-        <input class="filter" list="filter" oninput="onSetFilterBy(this.value)">
-        <div class="categorys"></div>
-        <select class="lang-select" onchange="onSetLang(this.value)">
-            <option value="en">English</option>
-            <!-- <option value="es">Spanish</option> -->
-            <option value="he">עברית</option>
-        </select>
+            
+            <div class="categorys"></div>
+            
+            <div class="languages">
+                
+                <select class="lang-select" onchange="onSetLang(this.value)">
+                    <option value="en">English</option>
+                <!-- <option value="es">Spanish</option> -->
+                <option value="he">עברית</option>
+            </select>
+        </div>
     </div>
     <section class="image-gallery"></section>
     <section class="meme-editor">

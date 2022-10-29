@@ -501,6 +501,7 @@ function onShowGallery(){
     document.querySelector('.upload').style.display = 'none'
     document.querySelector('.search-bar').style.display = 'flex'
     onSetFilterBy('')
+    onDeleteLine()
     
 }
 
