@@ -558,11 +558,10 @@ function icreaseCategorysOnLoad(){
         }
         onSetFilterBy('')
     }
-function  onSetLang(lang){
+function onSetLang(lang){
     setLang(lang)
     doTrans()
     setDirection()
-  
     updateLang()
 }
 
