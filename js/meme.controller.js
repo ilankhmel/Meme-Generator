@@ -21,6 +21,8 @@ function onInit() {
 
     renderSavedMemes()
     addListeners()
+    renderCategorys()
+    icreaseCategorysOnLoad()
 }
 var gDefaultLine1Set = false
 var gDefaultLine2Set = false
@@ -483,8 +485,9 @@ function showEditor(){
     document.querySelector('.meme-editor').style.display = 'flex'
     document.querySelector('.saved-memes').style.display = 'none'
     document.querySelector('.share-container').style.display = 'none'
+    document.querySelector('.search-bar').style.display = 'none'
     document.querySelector('.upload').style.display = 'none'
-
+    
 }
 
 function onShowGallery(){
@@ -496,10 +499,13 @@ function onShowGallery(){
     document.querySelector('.saved-memes').style.display = 'none'
     document.querySelector('.share-container').style.display = 'none'
     document.querySelector('.upload').style.display = 'none'
-
+    document.querySelector('.search-bar').style.display = 'flex'
+    onSetFilterBy('')
+    
 }
 
 function onShowMemes(){
+    document.querySelector('.search-bar').style.display = 'none'
     document.querySelector('.image-gallery').style.display = 'none'
     document.querySelector('.share-container').style.display = 'none'
     document.querySelector('.about-me').style.display = 'none'
@@ -570,3 +576,60 @@ function onImgInput(ev) {
 
     renderMeme()
   } 
+
+
+function renderCategorys(){
+    var strHTMLs = ''
+    for (const key in gKeywordSearchCountMap) {
+        strHTMLs +=  `<div data-trans="${key}" class="category ${key}" onclick="onIncreaseCountAndFilter('${key}')">${key}</div>`
+        }
+        console.log(strHTMLs);
+        document.querySelector('.categorys').innerHTML = strHTMLs
+    }
+    // strHTMLs = gKeywordSearchCountMap.map((prop)=>
+    
+    // `<div class="category ${prop.key}" onclick="onIncreaseCount(${prop.key})">${prop.key}</div>`)
+
+    
+function onIncreaseCountAndFilter(filter){
+    onSetFilterBy(filter)
+    var map = getKeywordsMap()
+    console.log(map[filter]);
+    map[filter]++
+    console.log(map[filter]);
+    console.dir(document.querySelector(`.${filter}`));
+    document.querySelector(`.${filter}`).style.fontSize = `${map[filter] + 20}px`
+    // var currFontSize = document.querySelector(`.${filter}`).style.fontSize
+    // console.log(currFontSize);
+    // var increased = +currFontSize + 3
+}
+
+function icreaseCategorysOnLoad(){
+    var map = getKeywordsMap()
+    for (const key in map) {
+            onIncreaseCountAndFilter(key)
+        }
+        onSetFilterBy('')
+    }
+function  onSetLang(lang){
+    setLang(lang)
+    doTrans()
+    setDirection()
+    // setQueryParams()
+    updateLang()
+}
+
+function setDirection(){
+    var lang = getCurrLang()
+    if(lang === 'he'){
+        document.querySelector('body').classList.add('rtl')
+    }else{
+        document.querySelector('body').classList.remove('rtl')
+    }
+}
+
+function updateLang(){
+    doTrans(getCurrLang())
+    setDirection()
+    setQueryParams()
+}
