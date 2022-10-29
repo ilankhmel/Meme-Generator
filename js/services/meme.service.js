@@ -10,8 +10,6 @@ var gKeywordSearchCountMap =
 'animals': 4,
 }
 var gImgs = [
-    // {id: 1, url: 'meme-imgs(square)/1.jpg', keywords: ['funny', 'cat']},
-    // {id: 2, url: 'meme-imgs(square)/2.jpg', keywords: ['funny', 'cat']}
 ];
 var gId = 0
 var gFilter = ''
@@ -172,33 +170,11 @@ function whatIsClicked(clickedPos){
     return gMeme.lines.findIndex((line, idx)=>isTextClicked(clickedPos, idx))
      
 }
-//Check if the click is inside the Text 
 function isTextClicked(clickedPos, idx) {
-    // const { pos } = gCircle
     var linePos = gMeme.lines[idx].pos
-    // console.log('linePos', linePos);
     var spaceTaken = gMeme.lines[idx].txt.length * gMeme.lines[idx].size
-    // Calc the distance between two dots
-    // const distance = Math.sqrt((pos.x - clickedPos.x) ** 2 + (pos.y - clickedPos.y) ** 2)
-    //If its smaller then the radius of the circle we are inside
+   
     var wordSpaceOnCanvas = linePos.x + spaceTaken
-
-    // console.log('lineX', linePos.x, 'SpaceTaken', wordSpaceOnCanvas);
-    // if(window.innerWidth < 560 ){
-    //     if(idx === 0){
-
-    //         if(clickedPos.x >= linePos.x -150 && clickedPos.x <= wordSpaceOnCanvas - 100 && clickedPos.y  >= linePos.y -100 && clickedPos.y  <= linePos.y ){
-    //             return true
-    //         }
-    //         return false
-    //     }else if(idx === 1){
-    //         if(clickedPos.x >= linePos.x -150 && clickedPos.x <= wordSpaceOnCanvas - 100 && clickedPos.y  >= linePos.y -250 && clickedPos.y  <= linePos.y ){
-    //             return true
-    //         }
-    //         return false
-            
-    //     }
-    // }else
 
     if(clickedPos.x >= linePos.x -150 && clickedPos.x <= wordSpaceOnCanvas - 100 && clickedPos.y  >= linePos.y -50 && clickedPos.y  <= linePos.y ){
         return true
@@ -211,24 +187,11 @@ function whatStickerClicked(clickedPos){
     return gMeme.stickers.findIndex((sticker, idx)=>isStickerClicked(clickedPos, idx))
      
 }
-//Check if the click is inside the Text 
 function isStickerClicked(clickedPos, idx) {
-    // const { pos } = gCircle
     var stickerPos = gMeme.stickers[idx].pos
-    // console.log('linePos', linePos);
-    // var spaceTaken = 50
-    // Calc the distance between two dots
-    // const distance = Math.sqrt((pos.x - clickedPos.x) ** 2 + (pos.y - clickedPos.y) ** 2)
-    //If its smaller then the radius of the circle we are inside
+   
     var wordSpaceOnCanvas = 50
 
-    // console.log('lineX', linePos.x, 'SpaceTaken', wordSpaceOnCanvas);
-    // if(window.innerWidth < 560){
-    //     if(clickedPos.x >= stickerPos.x -150 && clickedPos.x  < stickerPos.x + 50 && clickedPos.y  >= stickerPos.y -150 && clickedPos.y   <= stickerPos.y -100){
-    //         return true
-    //     }
-    //     return false
-    // }else
 
     if(clickedPos.x >= stickerPos.x -50 && clickedPos.x  < stickerPos.x + 150 && clickedPos.y  >= stickerPos.y -50 && clickedPos.y   <= stickerPos.y + 50){
         return true
@@ -242,7 +205,6 @@ function setTextDrag(bool, idx){
 
 
 
-//Move the Text in a delta, diff from the pervious pos
 function moveText(dx, dy, idx) {
     console.log(gMeme.lines[idx].pos.x);
     gMeme.lines[idx].pos.x += dx
@@ -251,9 +213,6 @@ function moveText(dx, dy, idx) {
   }
 
 
-// function findLineIdxByText(txt){
-//     return gMeme.lines.find(line=>line.txt === txt)
-// }
 
 function changeAlign(dir){
     gMeme.lines.forEach(line=>line.align = dir)
@@ -302,3 +261,42 @@ function moveSticker(dx, dy, idx) {
 function getKeywordsMap(){
     return gKeywordSearchCountMap
 }
+
+function resetMeme(){
+    gMeme = {
+        selectedImgId: 1,
+        selectedLineIdx: 0,
+        lines: [
+        {
+        txt: 'My Text',
+        size: 70,
+        align: 'left',
+        color: 'white',
+        stroke: 'black',
+        isFocused: false,
+        isDrag: false,
+        linewidth: 1,
+        font: 'Arial',
+        },
+       ],
+       stickers: [],
+       }
+}
+
+const shareData = {
+    title: 'memegen',
+    text: 'Check out this cool site!',
+    url: 'https://ilankhmel.github.io/meme-gen/'
+  }
+  
+  const btn = document.querySelector('.api');
+  const resultPara = document.querySelector('.result');
+  
+  btn.addEventListener('click', async () => {
+    try {
+      await navigator.share(shareData);
+      resultPara.textContent = 'Site shared successfully';
+    } catch (err) {
+      resultPara.textContent = `Error: ${err}`;
+    }
+  });

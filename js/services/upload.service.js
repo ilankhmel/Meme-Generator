@@ -1,42 +1,29 @@
 
 function uploadImg() {
-    const imgDataUrl = gElCanvas.toDataURL("image/jpeg")// Gets the canvas content as an image format
+    const imgDataUrl = gElCanvas.toDataURL("image/jpeg")
     document.querySelector('.share-container').style.display = 'block'
     document.querySelector('.upload').style.display = 'block'
-    // A function to be called if request succeeds
     function onSuccess(uploadedImgUrl) {
-      // Encode the instance of certain characters in the url
       const encodedUploadedImgUrl = encodeURIComponent(uploadedImgUrl)
       console.log(encodedUploadedImgUrl)
       document.querySelector('.upload').innerText = `Your photo is available here: ${uploadedImgUrl}`
-      // Create a link that on click will make a post in facebook with the image we uploaded
       document.querySelector('.share-container').innerHTML = `
           <button class="share-link" href="https://www.facebook.com/sharer/sharer.php?u=${encodedUploadedImgUrl}&t=${encodedUploadedImgUrl}" title="Share on Facebook" target="_blank" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=${uploadedImgUrl}&t=${uploadedImgUrl}'); return false;">
              Share   
           </button>`
     }
-    // Send the image to the server
     doUploadImg(imgDataUrl, onSuccess)
   }
   
   function doUploadImg(imgDataUrl, onSuccess) {
-    // Pack the image for delivery
     const formData = new FormData()
     formData.append('img', imgDataUrl)
   
-    // Send a post req with the image to the server
     const XHR = new XMLHttpRequest()
     XHR.onreadystatechange = () => {
-      // If the request is not done, we have no business here yet, so return
       if (XHR.readyState !== XMLHttpRequest.DONE) return
-      // if the response is not ok, show an error
       if (XHR.status !== 200) return console.error('Error uploading image')
       const { responseText: url } = XHR
-      // Same as:
-      // const url = XHR.responseText
-  
-      // If the response is ok, call the onSuccess callback function, 
-      // that will create the link to facebook using the url we got
       console.log('Got back live url:', url)
       onSuccess(url)
     }

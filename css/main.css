@@ -14,7 +14,6 @@ canvas {
 
 .image-gallery {
     text-align: center;
-    /* border-radius: 10px; */
 }
 
 .gallery-img {
@@ -56,7 +55,6 @@ header {
 }
 .controls-row4{
     display: flex;
-    /* flex-direction: column; */
     margin: 2px;
     justify-content: center;
     align-items: center;
@@ -67,7 +65,6 @@ header {
 }
 
 .logo {
-    /* text-align: center; */
     margin: 0;
     color: white;
     margin-left: 20px;
@@ -87,7 +84,6 @@ header {
 
 .header-btn {
     padding: 37px;
-    /* padding-bottom: 30px; */
     font-weight: 800;
     font-family: cursive;
     background-color: transparent;
@@ -103,7 +99,6 @@ header {
 }
 
 .meme-editor {
-    /* display: flex; */
     margin: 10px;
     justify-content: space-evenly;
     display: none;
@@ -114,9 +109,7 @@ header {
 }
 
 .canvas-container {
-    /* flex-basis: 70%; */
     aspect-ratio: 1/1;
-    /* width: 100%; */
 }
 
 .about-me {
@@ -124,7 +117,6 @@ header {
     display: none;
     justify-content: center;
     align-content: center;
-    /* height: 30vw; */
 }
 .profile-img {
     width: 200px;
@@ -133,11 +125,6 @@ header {
 }
 canvas {
     border: 5px solid black;
-    /* width: 300px;
-    height: 300px; */
-    /* width: 100%; */
-    /* aspect-ratio: 1/1; */
-
 }
 
 .meme-controls {
@@ -152,9 +139,6 @@ canvas {
     display: none;
 }
 
-datalist {
-    /* display: block; */
-}
 
 .search-bar {
     background-color: transparent;
@@ -219,7 +203,6 @@ h4{
     border: none;
     margin: 10px;
     border-radius: 10px;
-    /* width: 100%; */
 }
 
 .social-btn{
@@ -250,6 +233,7 @@ h4{
     justify-content: center;
     background-color: white;
     padding: 10px;
+    cursor: pointer;
 }
 
 input[type="file"] {
@@ -274,7 +258,6 @@ input[type="file"] {
     justify-content: space-evenly;
 }
 .section-btns{
-    /* display: flex; */
     margin-right: 200px;
     margin-left: 100px;
     margin: 10px;
@@ -289,6 +272,14 @@ input[type="file"] {
     margin-top: 5px;
 }
 
+.api{
+    padding: 7px;
+    border: 1px solid gray;
+    background-color: #1b8cd8;
+    color: white;
+    border-radius: 5px;
+    margin-top: 5px;
+}
 @media(max-width:1025px) {
     .search-bar{
      flex-direction: column;
@@ -327,7 +318,6 @@ input[type="file"] {
         top: 89px;
         background-color: black;
         transform: translateX(100%);
-        /* transform: translateY(89px); */
 
         transition: transform .6s;
     }
@@ -340,7 +330,6 @@ input[type="file"] {
         transform: translateX(0%);
         overflow-x: hidden;
 
-        /* transform: translateY(89px); */
 
     }
 
@@ -350,10 +339,6 @@ input[type="file"] {
 
     }
 
-    /* .gallery-img{
-        width: 130px;
-        height: auto;
-    } */
 }
 @media(max-width: 670px) {
     .filter{
@@ -377,15 +362,16 @@ input[type="file"] {
     }
     .section-btns{
         display: flex;
-        /* background-color: rgb(224, 224, 224); */
+      
         justify-content: space-around;
+    }
+    .upload{
+        width: 50px;
+        height: 20px;
     }
 }
 @media(max-width:560px){
 
-    /* canvas{
-        width: 280px;
-    } */
 }
 
 .category{

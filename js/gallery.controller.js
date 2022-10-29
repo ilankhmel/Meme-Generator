@@ -20,7 +20,6 @@ function onSetFilterBy(val){
     console.log(val);
     setFilterBy(val)
     renderGallery()
-    // document.querySelector('.filter').value = ''
 }
 
 function onShowMenu(){
