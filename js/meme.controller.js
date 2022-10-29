@@ -231,8 +231,8 @@ function resizeCanvas() {
 
         // resizeCanvas()
         // window.addEventListener('resize', resizeCanvas)
-        gCtx.canvas.width  = window.innerWidth - 850;
-      gCtx.canvas.height = window.innerHeight - 350;
+        gCtx.canvas.width  = screen.width - 1050;
+      gCtx.canvas.height = screen.height - 450;
         renderMeme()
     }
 }
