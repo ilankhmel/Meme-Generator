@@ -265,6 +265,8 @@ function deleteLine(){
     line.linewidth = 1
     return
 })
+
+    gMeme.stickers = []
     
 }
 

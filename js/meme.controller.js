@@ -491,7 +491,8 @@ function showEditor(){
     document.querySelector('.saved-memes').style.display = 'none'
     document.querySelector('.share-container').style.display = 'none'
     document.querySelector('.search-bar').style.display = 'none'
-    document.querySelector('.upload').style.display = 'none'
+    // document.querySelector('.categorys').style.display = 'none'
+    document.querySelector('.section2').style.display = 'none'
     
 }
 
@@ -503,8 +504,9 @@ function onShowGallery(){
     document.querySelector('.meme-editor').style.display = 'none'
     document.querySelector('.saved-memes').style.display = 'none'
     document.querySelector('.share-container').style.display = 'none'
-    document.querySelector('.upload').style.display = 'none'
+    // document.querySelector('.upload').style.display = 'none'
     document.querySelector('.search-bar').style.display = 'flex'
+    document.querySelector('.section2').style.display = 'flex'
     onSetFilterBy('')
     onDeleteLine()
     
@@ -519,7 +521,8 @@ function onShowMemes(){
     document.querySelector('.meme-editor').style.display = 'none'
     document.querySelector('.saved-memes').style.display = 'block'
     document.querySelector('.share-container').style.display = 'none'
-    document.querySelector('.upload').style.display = 'none'
+    // document.querySelector('.upload').style.display = 'none'
+    document.querySelector('.section2').style.display = 'none'
 
 }
 

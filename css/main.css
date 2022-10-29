@@ -14,15 +14,18 @@ canvas {
 
 .image-gallery {
     text-align: center;
+    /* border-radius: 10px; */
 }
 
 .gallery-img {
     width: 200px;
     height: 200px;
     margin: 10px;
+    border-radius: 10px;
+    box-shadow: -3px 5px 19px 0px;
 }
 .gallery-img:hover {
-   border: 3px solid gray;
+   border: 1px solid gray;
    box-sizing: border-box;
    cursor: pointer;
 }
@@ -73,12 +76,17 @@ header {
    font-size: 50px;
 }
 
+.logo:hover{
+    cursor: pointer;
+    color: black;
+}
+
 .logo-img {
     width: 200px;
 }
 
 .header-btn {
-    padding: 31px;
+    padding: 37px;
     /* padding-bottom: 30px; */
     font-weight: 800;
     font-family: cursive;
@@ -89,13 +97,14 @@ header {
 }
 
 .header-btn:hover {
-    border-bottom: 3px solid #1b8cd8;
+    border-bottom: 3px solid black;
     color: black;
-
+    cursor: pointer;
 }
 
 .meme-editor {
     /* display: flex; */
+    margin: 10px;
     justify-content: space-evenly;
     display: none;
 }
@@ -112,7 +121,7 @@ header {
 
 .about-me {
     background-color: white;
-    display: flex;
+    display: none;
     justify-content: center;
     align-content: center;
     /* height: 30vw; */
@@ -262,8 +271,10 @@ input[type="file"] {
     justify-content: start;
     align-items: center;
     background-color: white;
+    justify-content: space-evenly;
 }
 .section-btns{
+    /* display: flex; */
     margin-right: 200px;
     margin-left: 100px;
     margin: 10px;
@@ -303,6 +314,9 @@ input[type="file"] {
     }
 }
 @media(max-width:755px) {
+    .about-me{
+        display: none;
+    }
     .buttons {
         display: flex;
         flex-direction: column;
@@ -336,10 +350,10 @@ input[type="file"] {
 
     }
 
-    .gallery-img{
+    /* .gallery-img{
         width: 130px;
         height: auto;
-    }
+    } */
 }
 @media(max-width: 670px) {
     .filter{
@@ -356,10 +370,14 @@ input[type="file"] {
         display: block;
     }
     .section2{
+        display: block;
         justify-content: space-around;
+        background-color: rgb(224, 224, 224);
+
     }
     .section-btns{
         display: flex;
+        /* background-color: rgb(224, 224, 224); */
         justify-content: space-around;
     }
 }
