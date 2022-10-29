@@ -11,69 +11,91 @@
     <link rel="stylesheet" href="css/fa/fontawesome.css">
     <link rel="stylesheet" href="css/fa/fontawesome.min.css">
     <link rel="stylesheet" href="css/fa/regular.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat&display=swap" rel="stylesheet">
 
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
-
+    
 </head>
 
 <body onload="onInit()">
     <header>
-        <!-- <div class="logo"><img class="logo-img" src="/meme-imgs(square)/LOGO.png" alt=""></div> -->
-        <h1 data-trans="title" class="logo">memegen</h1>
-        <div class="buttons">
-            <button data-trans="gallery" class="header-btn gallery-btn" onclick="onShowGallery()">Gallery</button>
-            <button data-trans="my-memes" class="header-btn Memes-btn" onclick="onShowMemes()">My Memes</button>
+        
+        <div class="header-flex">
+            
+            <h1 data-trans="title" class="logo" onclick="onShowGallery()">memegen</h1>
+    
+            <div class="search-bar">
+                
+                
+                <label for="" data-trans="search">
+                        
+                </label>
+                    <input placeholder="Search Memes" class="filter" list="filter" oninput="onSetFilterBy(this.value)">
+                    <datalist id="filter">
+                        <option value="babys"></option>
+                        <option value="funny"></option>
+                        <option value="politics"></option>
+                        <option value="animals"></option>
+                        <option value="science"></option>
+                        <option value="basketball"></option>
+                        <option value="movies"></option>
+                        <option value="trump"></option>
+                        <option value="dogs"></option>
+                        <option value="cats"></option>
+                    </datalist>
+                </div>
+                
+                
+                <div class="buttons">
+                    <button data-trans="gallery" class="header-btn gallery-btn" onclick="onShowGallery()">Gallery</button>
+                <button data-trans="my-memes" class="header-btn Memes-btn" onclick="onShowMemes()">My Memes</button>
+            </div>
+            
+            <button class="header-btn menu-btn" onclick="onShowMenu()"><i class="fa-solid fa-bars"></i></button>
         </div>
+        <!-- <div class="logo"><img class="logo-img" src="/meme-imgs(square)/LOGO.png" alt=""></div> -->
         
         
-        
-        <datalist id="filter">
-            <option value="babys"></option>
-            <option value="funny"></option>
-            <option value="politics"></option>
-            <option value="animals"></option>
-            <option value="science"></option>
-            <option value="basketball"></option>
-            <option value="movies"></option>
-            <option value="trump"></option>
-            <option value="dogs"></option>
-            <option value="cats"></option>
-        </datalist>
         <!-- </label> -->
         
         
-        <div class="inputs">
-            <input
-            type="file"
-            class="file-input btn"
-            name="image"
-            onchange="onImgInput(event)"
-            />
+    </header>
+
+        <div class="section2">
+
+            
+            <div class="section-btns">
+                        <div class="upload">
+
+                            <label class="section-btn inputs">
+                                Upload
+                                <input
+                                type="file"
+                                class="file-input btn"
+                                name="image"
+                                onchange="onImgInput(event)"
+                                />
+                            </label>
+                        </div>
+
+                            <div class="section-btn languages">
+                                    
+                                    <select class="lang-select" onchange="onSetLang(this.value)">
+                                        <option value="en">English</option>
+                                        <!-- <option value="es">Spanish</option> -->
+                                        <option value="he">עברית</option>
+                                    </select>
+                                </div>
+                </div>
+                    
+                    <div class="categorys"></div>
             </div>
-            <button class="header-btn menu-btn" onclick="onShowMenu()"><i class="fa-solid fa-bars"></i></button>
-        </header>
-        <div class="search-bar">
-            <div class="search">
                 
-                <label for="" data-trans="search">
-                    Search:
-                </label>
-                <input class="filter" list="filter" oninput="onSetFilterBy(this.value)">
-            </div>
-            
-            
-            <div class="categorys"></div>
-            
-            <div class="languages">
-                
-                <select class="lang-select" onchange="onSetLang(this.value)">
-                    <option value="en">English</option>
-                <!-- <option value="es">Spanish</option> -->
-                <option value="he">עברית</option>
-            </select>
-        </div>
-    </div>
+
+    
     <section class="image-gallery"></section>
     <section class="meme-editor">
         <div class="canvas-container">

@@ -52,6 +52,7 @@ var keyMap = {
     16: ['funny', 'movies'],
     17: ['politics', 'putin'],
     18: ['movies'],
+    19: ['dogg'],
 }
 function createImages(){
      for (const key in keyMap) {
@@ -183,21 +184,21 @@ function isTextClicked(clickedPos, idx) {
     var wordSpaceOnCanvas = linePos.x + spaceTaken
 
     // console.log('lineX', linePos.x, 'SpaceTaken', wordSpaceOnCanvas);
-    if(window.innerWidth < 560 ){
-        if(idx === 0){
+    // if(window.innerWidth < 560 ){
+    //     if(idx === 0){
 
-            if(clickedPos.x >= linePos.x -150 && clickedPos.x <= wordSpaceOnCanvas - 100 && clickedPos.y  >= linePos.y -100 && clickedPos.y  <= linePos.y ){
-                return true
-            }
-            return false
-        }else if(idx === 1){
-            if(clickedPos.x >= linePos.x -150 && clickedPos.x <= wordSpaceOnCanvas - 100 && clickedPos.y  >= linePos.y -250 && clickedPos.y  <= linePos.y ){
-                return true
-            }
-            return false
+    //         if(clickedPos.x >= linePos.x -150 && clickedPos.x <= wordSpaceOnCanvas - 100 && clickedPos.y  >= linePos.y -100 && clickedPos.y  <= linePos.y ){
+    //             return true
+    //         }
+    //         return false
+    //     }else if(idx === 1){
+    //         if(clickedPos.x >= linePos.x -150 && clickedPos.x <= wordSpaceOnCanvas - 100 && clickedPos.y  >= linePos.y -250 && clickedPos.y  <= linePos.y ){
+    //             return true
+    //         }
+    //         return false
             
-        }
-    }else
+    //     }
+    // }else
 
     if(clickedPos.x >= linePos.x -150 && clickedPos.x <= wordSpaceOnCanvas - 100 && clickedPos.y  >= linePos.y -50 && clickedPos.y  <= linePos.y ){
         return true
@@ -222,12 +223,12 @@ function isStickerClicked(clickedPos, idx) {
     var wordSpaceOnCanvas = 50
 
     // console.log('lineX', linePos.x, 'SpaceTaken', wordSpaceOnCanvas);
-    if(window.innerWidth < 560){
-        if(clickedPos.x >= stickerPos.x -150 && clickedPos.x  < stickerPos.x + 50 && clickedPos.y  >= stickerPos.y -150 && clickedPos.y   <= stickerPos.y -100){
-            return true
-        }
-        return false
-    }else
+    // if(window.innerWidth < 560){
+    //     if(clickedPos.x >= stickerPos.x -150 && clickedPos.x  < stickerPos.x + 50 && clickedPos.y  >= stickerPos.y -150 && clickedPos.y   <= stickerPos.y -100){
+    //         return true
+    //     }
+    //     return false
+    // }else
 
     if(clickedPos.x >= stickerPos.x -50 && clickedPos.x  < stickerPos.x + 150 && clickedPos.y  >= stickerPos.y -50 && clickedPos.y   <= stickerPos.y + 50){
         return true

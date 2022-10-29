@@ -11,8 +11,8 @@ function onInit() {
     setFocus()
     // if(window.width < 600){
 
-        // resizeCanvas()
-        // window.addEventListener('resize', resizeCanvas)
+        resizeCanvas()
+        window.addEventListener('resize', resizeCanvas)
     // }
 
     if (!loadFromStorage('saved-memes')) {
@@ -227,9 +227,14 @@ function onChangeFocus() {
 function resizeCanvas() {
     // const elContainer = document.querySelector('.canvas-container')
     // gElCanvas.width = elContainer.offsetWidth - 20
-    gCtx.canvas.width  = window.innerWidth;
-  gCtx.canvas.height = window.innerHeight;
-    renderMeme()
+    if(window.innerWidth < 560){
+
+        // resizeCanvas()
+        // window.addEventListener('resize', resizeCanvas)
+        gCtx.canvas.width  = window.innerWidth - 850;
+      gCtx.canvas.height = window.innerHeight - 350;
+        renderMeme()
+    }
 }
 
 function onImFlexible() {
