@@ -9,8 +9,11 @@ function onInit() {
     gCtx = gElCanvas.getContext('2d')
     renderGallery()
     setFocus()
-    // resizeCanvas()
-    // window.addEventListener('resize', resizeCanvas)
+    // if(window.width < 600){
+
+        // resizeCanvas()
+        // window.addEventListener('resize', resizeCanvas)
+    // }
 
     if (!loadFromStorage('saved-memes')) {
         saveToStorage('saved-memes', [])
@@ -26,7 +29,7 @@ function renderMeme() {
     var meme = getMeme()
     console.log(meme);
     var img = makeImg(meme)
-    const { selectedImgId: id, selectedLineIdx: lineIdx, lines } = meme
+    const { selectedImgId: id, selectedLineIdx: lineIdx, lines ,stickers} = meme
 
 
     setTimeout(() => {
@@ -35,6 +38,8 @@ function renderMeme() {
             var { txt, size, align, color, isFocused, stroke ,pos, linewidth, font} = line
             return drawText(txt, size, align, color, idx, isFocused, stroke, pos, linewidth, font)
         })
+
+        stickers.forEach((sticker)=> drawSticker(sticker.sticker, sticker.pos.x, sticker.pos.y))
     }, 30)
 }
 function drawText(txt, size, align, color, idx, isFocused, stroke, pos, linewidth, font) {
@@ -95,10 +100,14 @@ function drawText(txt, size, align, color, idx, isFocused, stroke, pos, linewidt
 
         if (isFocused) {
             gCtx.beginPath()
-            gCtx.lineWidth = 5
-            gCtx.moveTo(pos.x, pos.y)
-            gCtx.lineTo(pos.x + 100, pos.y)
-            gCtx.strokeStyle = 'cyan'
+            var length = txt.length * size /2.5
+            gCtx.lineWidth = 8
+            gCtx.moveTo(pos.x - 110, pos.y+20)
+            gCtx.lineTo(pos.x + length + 15, pos.y+20)
+            gCtx.lineTo(pos.x + length + 15 , pos.y-60)
+            gCtx.lineTo(pos.x -110, pos.y-60)
+            gCtx.closePath()
+            gCtx.strokeStyle = 'orange'
             gCtx.stroke()
         }
         else {
@@ -126,10 +135,14 @@ function drawText(txt, size, align, color, idx, isFocused, stroke, pos, linewidt
         
         if (isFocused) {
             gCtx.beginPath()
-            gCtx.lineWidth = 5
-            gCtx.moveTo(pos.x, pos.y)
-            gCtx.lineTo(pos.x + 100, pos.y)
-            gCtx.strokeStyle = 'cyan'
+            var length = txt.length * size /2.5
+            gCtx.lineWidth = 8
+            gCtx.moveTo(pos.x - 110, pos.y+20)
+            gCtx.lineTo(pos.x + length + 15, pos.y+20)
+            gCtx.lineTo(pos.x + length + 15 , pos.y-60)
+            gCtx.lineTo(pos.x -110, pos.y-60)
+            gCtx.closePath()
+            gCtx.strokeStyle = 'orange'
             gCtx.stroke()
         } else {
             gCtx.beginPath()
@@ -138,16 +151,21 @@ function drawText(txt, size, align, color, idx, isFocused, stroke, pos, linewidt
 
 
 
-    } else {
-        gCtx.fillText(txt, gElCanvas.width / 2, gElCanvas.height / 2)
-        gCtx.strokeText(txt, gElCanvas.width / 2, gElCanvas.height / 2)
+    }
+     else {
+        gCtx.fillText(txt, gElCanvas.width /3.5 + diff, gElCanvas.height / 2)
+        gCtx.strokeText(txt, gElCanvas.width / 3.5 + diff, gElCanvas.height / 2)
 
         if (isFocused) {
             gCtx.beginPath()
-            gCtx.lineWidth = 5
-            gCtx.moveTo(x, gElCanvas.width / 2, gElCanvas.height / 2 + 10)
-            gCtx.lineTo(x + 100, gElCanvas.width / 2, gElCanvas.height / 2)
-            gCtx.strokeStyle = 'cyan'
+            var length = txt.length * size /2.5
+            gCtx.lineWidth = 8
+            gCtx.moveTo(x - 110,  gElCanvas.height / 2 + 20)
+            gCtx.lineTo(x + length + 15, gElCanvas.height / 2 + 20)
+            gCtx.lineTo(x + length + 15 , gElCanvas.height / 2 -60)
+            gCtx.lineTo(x -110, gElCanvas.height / 2 - 60)
+            gCtx.closePath()
+            gCtx.strokeStyle = 'orange'
             gCtx.stroke()
         } else {
             gCtx.beginPath()
@@ -181,7 +199,7 @@ function onSetStrokeColor(color) {
 }
 
 function onSetTextSize(size) {
-    setTextSize(size, gFocus)
+    setTextSize(+size, gFocus)
     renderMeme()
 }
 
@@ -276,7 +294,7 @@ function renderSavedMemes() {
     var strHTMLs = savedMemes.map((meme, idx) =>
         `<img class="saved-meme-img" src="${meme.dataURL}" onclick="onSetAndEditSavedMeme(${idx})">`
     )
-    strHTMLs.unshift(`<h1 class="saved-memes-title">Your Saved Memes</h1>`)
+    strHTMLs.unshift(`<h1 class="saved-memes-header">Your Saved Memes</h1>`)
     document.querySelector('.saved-memes').innerHTML = strHTMLs.join('')
 
 }
@@ -311,6 +329,21 @@ function addTouchListeners() {
 var gStartPos
 var gClickedTextIdx = 0
 function onDown(ev) {
+   onDownText(ev)
+    onDownSticker(ev)
+}
+
+function onMove(ev) {
+    onMoveText(ev)
+    onMoveSticker(ev)
+
+}
+function onUp() {
+    onUpText()
+    onUpSticker()
+}
+
+function onDownText(ev){
     console.log('Im from onDown')
     //Get the ev pos from mouse or touch
     const pos = getEvPos(ev)
@@ -323,10 +356,9 @@ function onDown(ev) {
     //Save the pos we start from 
     gStartPos = pos
     document.body.style.cursor = 'grabbing'
-
 }
 
-function onMove(ev) {
+function onMoveText(ev){
     // console.log('Im from onMove')
     // console.log(gClickedTextIdx);
     if(gClickedTextIdx === 'undefined' || gClickedTextIdx < 0) return
@@ -343,11 +375,9 @@ function onMove(ev) {
     gStartPos = pos
     //The canvas is render again after every move
     renderMeme()
-    
-
 }
 
-function onUp() {
+function onUpText(){
     console.log('Im from onUp')
     document.body.style.cursor = 'grab'
     if (gClickedTextIdx < 0) return
@@ -355,6 +385,51 @@ function onUp() {
     setTextDrag(false, gClickedTextIdx)
 }
 
+var gClickedStickerIdx
+
+function onDownSticker(ev){
+    console.log('Im from onDown')
+    //Get the ev pos from mouse or touch
+    const pos = getEvPos(ev)
+    console.log(pos);
+     gClickedStickerIdx = whatStickerClicked(pos)
+    //  gClickedStickerIdx = 0
+    if (gClickedStickerIdx < 0) return
+    // console.log(gClickedTextIdx);
+    console.log(gClickedStickerIdx, 'sticker is clicked');
+    setStickerDrag(true, gClickedStickerIdx)
+    //Save the pos we start from 
+    gStartPos = pos
+    document.body.style.cursor = 'grabbing'
+}
+
+function onMoveSticker(ev){
+    // console.log('Im from onMove')
+    // console.log(gClickedTextIdx);
+    if(gClickedStickerIdx === 'undefined' || gClickedStickerIdx < 0) return
+    const { isDrag } = gMeme.stickers[gClickedStickerIdx]
+    if (!isDrag) return
+    console.log('dragged');
+    const pos = getEvPos(ev)
+    //Calc the delta , the diff we moved
+    const dx = pos.x - gStartPos.x
+    const dy = pos.y - gStartPos.y
+    // console.log('dxdy', dx, dy);
+    moveSticker(dx, dy, gClickedStickerIdx)
+    //Save the last pos , we remember where we`ve been and move accordingly
+    gStartPos = pos
+    //The canvas is render again after every move
+    renderMeme()
+    
+}
+
+function onUpSticker(){
+    console.log('Im from onUp')
+    document.body.style.cursor = 'grab'
+    if (gClickedStickerIdx < 0) return
+
+    setStickerDrag(false, gClickedStickerIdx)
+}
 
 
 function getEvPos(ev) {
@@ -407,6 +482,8 @@ function showEditor(){
     // document.querySelector('footer').style.display = 'none'
     document.querySelector('.meme-editor').style.display = 'flex'
     document.querySelector('.saved-memes').style.display = 'none'
+    document.querySelector('.share-container').style.display = 'none'
+    document.querySelector('.upload').style.display = 'none'
 
 }
 
@@ -417,6 +494,8 @@ function onShowGallery(){
     // document.querySelector('footer').style.display = 'none'
     document.querySelector('.meme-editor').style.display = 'none'
     document.querySelector('.saved-memes').style.display = 'none'
+    document.querySelector('.share-container').style.display = 'none'
+    document.querySelector('.upload').style.display = 'none'
 
 }
 
@@ -427,6 +506,8 @@ function onShowMemes(){
     // document.querySelector('footer').style.display = 'none'
     document.querySelector('.meme-editor').style.display = 'none'
     document.querySelector('.saved-memes').style.display = 'block'
+    document.querySelector('.share-container').style.display = 'none'
+    document.querySelector('.upload').style.display = 'none'
 
 }
 
@@ -440,3 +521,52 @@ function onSetFont(val){
     setFont(val)
     renderMeme()
 }
+
+function onSetSticker(span){
+
+    gCtx.fillText(span.innerText, 200 , 200)
+    saveSticker(span.innerText, 200, 200)
+}
+
+function drawSticker(sticker, x, y){
+    gCtx.fillText(sticker, x , y)
+
+}
+
+// The next 2 functions handle IMAGE UPLOADING to img tag from file system: 
+function onImgInput(ev) {
+    loadImageFromInput(ev, renderImg)
+  }
+  
+  // CallBack func will run on success load of the img
+  function loadImageFromInput(ev, onImageReady) {
+    showEditor()
+    const reader = new FileReader()
+    // After we read the file
+    reader.onload = function (event) {
+      let img = new Image() // Create a new html img element
+      img.src = event.target.result // Set the img src to the img file we read
+      // Run the callBack func, To render the img on the canvas
+    //   img.onload = onImageReady.bind(null, img)
+      // Can also do it this way:
+      img.onload = () => onImageReady(img)
+    }
+    reader.readAsDataURL(ev.target.files[0]) // Read the file we picked
+    // document.querySelector('.text-input').value = ''
+    // var meme = getMeme()
+    // meme.lines[0].txt /= ''
+    
+  }
+  
+  
+  function renderImg(img) {
+    // Draw the img on the canvas
+    // gCtx.clearRect(0,0,gElCanvas.width, gElCanvas.height)
+    gCtx.drawImage(img, 0, 0, gElCanvas.width, gElCanvas.height)
+    var id = +makeId()
+    console.log(id);
+    gImgs.push({id: id, url: img.src, keywords: []})
+    gMeme.selectedImgId = id
+
+    renderMeme()
+  } 

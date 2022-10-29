@@ -8,8 +8,8 @@ function renderGallery(){
 
 function onImgSelect(id){
     console.log(id);
-    document.querySelector('.text-input').value = ''
     setImg(id)
+    document.querySelector('.text-input').value = ''
     var meme = getMeme()
     meme.lines[0].txt = ''
     showEditor()

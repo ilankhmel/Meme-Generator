@@ -42,6 +42,16 @@
             <option value="cats"></option>
         </datalist>
         <!-- </label> -->
+
+        <div class="inputs">
+            <input
+              type="file"
+              class="file-input btn"
+              name="image"
+              onchange="onImgInput(event)"
+            />
+
+            
     </header>
     <div class="search-bar">
         <label for="">
@@ -73,52 +83,79 @@
                         class="fa-solid fa-align-center"></i></button>
                 <button class="editor-btn" value="right" onclick="onChangeAlign(this.value)"><i
                         class="fa-solid fa-align-right"></i></button>
-                <button class="editor-btn" onclick="onSetLineWidth()"><i class="fa-solid fa-a"></i></button>
+                <button class="editor-btn" onclick="onSetLineWidth()"><img width="12px"
+                        src="icons/text stroke.png"></button>
             </div>
 
+
             <div class="controls-row4">
-                <label for="">
+                <!-- <label for="">
                     Font Size:
                     <input type="range" title="" oninput="onSetTextSize(this.value)">
-                </label>
-                <label for="">Text Color:
+                </label> -->
+                <button class="editor-btn" onclick="onSetTextSize('3')"><img width="15px"
+                        src="icons/increase font - icon.png"></button>
+                <button class="editor-btn" onclick="onSetTextSize('-3')"><img width="15px"
+                        src="icons/decrease font - icon.png"></button>
+                <div style="position:relative; display:inline-block">
+                    <button type="button" class="editor-btn"><i class="fa-solid fa-palette"></i></button>
+                    <input oninput="onSetTextColor(this.value)" type="color" value="#ff0000"
+                        style="opacity:0; position:absolute; left:0;top:0;width:100%" />
+                </div>
+
+                <div style="position:relative; display:inline-block">
+                    <button type="button" class="editor-btn"><i class="fa-solid fa-brush"></i></button>
+                    <input oninput="onSetStrokeColor(this.value)" type="color" value="#ff0000"
+                        style="opacity:0; position:absolute; left:0;top:0;width:100%" />
+                </div>
+                <!-- <label for="">Text Color:
 
                     <input type="color" oninput="onSetTextColor(this.value)">
                 </label>
                 <label for="">Stroke Color:
 
                     <input type="color" oninput="onSetStrokeColor(this.value)">
-                </label>
+                </label> -->
 
                 </input>
-                <label for="">
-                    Font Style:
-                    <input list="set-font" onchange="onSetFont(this.value)">
-                    <datalist id="set-font">
-                        <option value="cursive"></option>
-                        <option value="Gill Sans"></option>
-                    </datalist>
-                </label>
             </div>
 
 
-            <div class="controls-row5">
+            <label for="">
+                Font Style:
+                <input list="set-font" onchange="onSetFont(this.value)">
+                <datalist id="set-font">
+                    <option value="cursive"></option>
+                    <option value="Gill Sans"></option>
+                </datalist>
+            </label>
 
+            <div class="controls-row5">
                 <button class="editor-btn" onclick="onImFlexible()"><i class="fa-solid fa-shuffle"></i></button>
                 <button class="editor-btn" onclick="onSaveMeme()"><i class="fa-solid fa-floppy-disk"></i></button>
                 <button class="editor-btn" class="btn" onclick="uploadImg()">
                     <i class="fa-solid fa-upload"></i>
                 </button>
+
             </div>
-        </div>
+
+            <div class="stickers">
+                <span onclick="onSetSticker(this)">😀</span>
+                <span onclick="onSetSticker(this)">😁</span>
+                <span onclick="onSetSticker(this)">😂</span>
+                <span onclick="onSetSticker(this)">😀</span>
+                <span onclick="onSetSticker(this)">😄</span>
+                <span onclick="onSetSticker(this)">😅</span>
+            </div>
     </section>
+
     <div class="upload"></div>
     <div class="share-container"></div>
     <section class="saved-memes">
         <h1>Your Saved Memes!</h1>
 
     </section>
-
+    
     <section class="about-me">
         <img class="profile-img" src="https://ca.slack-edge.com/T03PU4YR4NS-U03TCPQ0VNK-c60ef0b123f9-512" alt="">
         <div class="about-details">
@@ -135,7 +172,7 @@
         <h4 class="footer-logo">memegen</h4>
         <small>All right go to @</small>
     </footer>
-    <script src="js\util.service.js"></script>
+    <script src="js/util.service.js"></script>
     <script src="js/services/meme.service.js"></script>
     <script src="js/services/storage.service.js"></script>
     <script src="js/meme.controller.js"></script>

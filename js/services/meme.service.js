@@ -19,8 +19,9 @@ var gMeme = {
  isDrag: false,
  linewidth: 1,
  font: 'Arial',
- }
- ]
+ },
+],
+stickers: [],
 }
 var keyMap = {
     1: ['funny', 'trump'],
@@ -96,7 +97,7 @@ function setStrokeColor(color, idx){
 }
 
 function setTextSize(size, idx){
-    gMeme.lines[idx].size = size
+    gMeme.lines[idx].size += size
 }
 
 function addLine(txt = ''){
@@ -172,8 +173,53 @@ function isTextClicked(clickedPos, idx) {
     var wordSpaceOnCanvas = linePos.x + spaceTaken
 
     // console.log('lineX', linePos.x, 'SpaceTaken', wordSpaceOnCanvas);
+    if(window.innerWidth < 560 ){
+        if(idx === 0){
 
-    if(clickedPos.x >= linePos.x -200 && clickedPos.x <= wordSpaceOnCanvas && clickedPos.y  >= linePos.y -200 && clickedPos.y  <= linePos.y ){
+            if(clickedPos.x >= linePos.x -150 && clickedPos.x <= wordSpaceOnCanvas - 100 && clickedPos.y  >= linePos.y -100 && clickedPos.y  <= linePos.y ){
+                return true
+            }
+            return false
+        }else if(idx === 1){
+            if(clickedPos.x >= linePos.x -150 && clickedPos.x <= wordSpaceOnCanvas - 100 && clickedPos.y  >= linePos.y -250 && clickedPos.y  <= linePos.y ){
+                return true
+            }
+            return false
+            
+        }
+    }else
+
+    if(clickedPos.x >= linePos.x -150 && clickedPos.x <= wordSpaceOnCanvas - 100 && clickedPos.y  >= linePos.y -50 && clickedPos.y  <= linePos.y ){
+        return true
+    }
+    return false
+  }
+
+
+function whatStickerClicked(clickedPos){
+    return gMeme.stickers.findIndex((sticker, idx)=>isStickerClicked(clickedPos, idx))
+     
+}
+//Check if the click is inside the Text 
+function isStickerClicked(clickedPos, idx) {
+    // const { pos } = gCircle
+    var stickerPos = gMeme.stickers[idx].pos
+    // console.log('linePos', linePos);
+    // var spaceTaken = 50
+    // Calc the distance between two dots
+    // const distance = Math.sqrt((pos.x - clickedPos.x) ** 2 + (pos.y - clickedPos.y) ** 2)
+    //If its smaller then the radius of the circle we are inside
+    var wordSpaceOnCanvas = 50
+
+    // console.log('lineX', linePos.x, 'SpaceTaken', wordSpaceOnCanvas);
+    if(window.innerWidth < 560){
+        if(clickedPos.x >= stickerPos.x -150 && clickedPos.x  < stickerPos.x + 50 && clickedPos.y  >= stickerPos.y -150 && clickedPos.y   <= stickerPos.y -100){
+            return true
+        }
+        return false
+    }else
+
+    if(clickedPos.x >= stickerPos.x -50 && clickedPos.x  < stickerPos.x + 150 && clickedPos.y  >= stickerPos.y -50 && clickedPos.y   <= stickerPos.y + 50){
         return true
     }
     return false
@@ -203,7 +249,11 @@ function changeAlign(dir){
 }
 
 function deleteLine(){
-    gMeme.lines.forEach((line)=>line.txt = '')
+    gMeme.lines.forEach((line)=>{
+    line.txt = ''
+    line.linewidth = 1
+    return
+})
     
 }
 
@@ -215,3 +265,24 @@ function setFont(val){
     gMeme.lines.forEach((line)=>line.font = val)
 
 }
+
+function saveSticker(sticker,x,y){
+    gMeme.stickers.push({
+        sticker,
+        pos:{x, y},
+        isDrag: false,
+    })
+}
+
+function setStickerDrag(bool,idx){
+    gMeme.stickers[idx].isDrag = bool
+}
+
+function moveSticker(dx, dy, idx) {
+    console.log(gMeme.stickers[idx].pos.x);
+    gMeme.stickers[idx].pos.x += dx
+    console.log(gMeme.stickers[idx].pos.x);
+    gMeme.stickers[idx].pos.y += dy 
+  }
+
+
