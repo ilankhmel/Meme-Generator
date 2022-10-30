@@ -13,11 +13,6 @@ body {
    
 }
 
-body >*{
-    overflow-x: hidden;
-
-}
-
 canvas {
     background-color: white;
 }
