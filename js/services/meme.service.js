@@ -1,5 +1,4 @@
 gElCanvas = document.querySelector('canvas')
-console.log(gElCanvas);
 //textWidth
 var gKeywordSearchCountMap = 
 {'funny': 12,
@@ -31,7 +30,7 @@ var gMeme = {
  isDrag: false,
  linewidth: 1,
  font: 'Arial',
- pos: {x: gElCanvas.width / 3, y: gElCanvas.height / 5},
+ pos: {x: gElCanvas.width / 5, y: gElCanvas.height / 5},
  },
 ],
 stickers: [],
@@ -90,11 +89,11 @@ function getImageById(id){
 }
 
 function setLineText(text, lineId){
-    console.log(lineId);
-    console.log(gMeme.lines[lineId].txt);
-    console.log(text);
+    // console.log(lineId);
+    // console.log(gMeme.lines[lineId].txt);
+    // console.log(text);
     gMeme.lines[lineId].txt = text
-    console.log(gMeme.lines[lineId].txt);
+    // console.log(gMeme.lines[lineId].txt);
 }
 
 function setImg(id){
@@ -121,9 +120,9 @@ function addLine(txt = ''){
     console.log(idx);
     var pos
     if(idx === 1){
-        pos = {x: gElCanvas.width / 3, y: gElCanvas.height - gElCanvas.height / 5}
+        pos = {x: gElCanvas.width / 5, y: gElCanvas.height - gElCanvas.height / 5}
     }else{
-        pos =  {x: gElCanvas.width / 3, y: gElCanvas.height - gElCanvas.height / 2}
+        pos =  {x: gElCanvas.width / 5, y: gElCanvas.height - gElCanvas.height / 2}
     }
 
     console.log(pos);
@@ -189,11 +188,13 @@ function whatIsClicked(clickedPos){
 }
 function isTextClicked(clickedPos, idx) {
     var linePos = gMeme.lines[idx].pos
-    var spaceTaken = gMeme.lines[idx].txt.length * gMeme.lines[idx].size
+    // var spaceTaken = gMeme.lines[idx].txt.length * 
+    // gCtx.measureText(gMeme.lines[idx].txt)
    
-    var wordSpaceOnCanvas = linePos.x + spaceTaken
+    var wordSpaceOnCanvas = gCtx.measureText(gMeme.lines[idx].txt).width
+    // var wordSpaceOnCanvas = linePos.x + spaceTaken
 
-    if(clickedPos.x >= linePos.x -150 && clickedPos.x <= wordSpaceOnCanvas - 100 && clickedPos.y  >= linePos.y -50 && clickedPos.y  <= linePos.y ){
+    if(clickedPos.x >= linePos.x  && clickedPos.x <= linePos.x + wordSpaceOnCanvas && clickedPos.y  >= linePos.y -50 && clickedPos.y  <= linePos.y + 10){
         return true
     }
     return false
@@ -224,7 +225,9 @@ function setTextDrag(bool, idx){
 
 function moveText(dx, dy, idx) {
     // console.log(gMeme.lines[idx].pos.x);
+    // console.log(dx);
     gMeme.lines[idx].pos.x += dx
+    // console.log(gMeme.lines[idx].pos.x);
     // console.log(gMeme.lines[idx].pos.x);
     gMeme.lines[idx].pos.y += dy 
   }
@@ -279,25 +282,22 @@ function getKeywordsMap(){
     return gKeywordSearchCountMap
 }
 
-function resetMeme(){
-    gMeme = {
-        selectedImgId: 1,
-        selectedLineIdx: 0,
-        lines: [
+function resetLines(){
+    gFocus = 0
+    gMeme.lines = [
         {
         txt: 'My Text',
-        size: 70,
+        size: 50,
         align: 'left',
         color: 'white',
         stroke: 'black',
-        isFocused: false,
+        isFocused: true,
         isDrag: false,
         linewidth: 1,
         font: 'Arial',
+        pos: {x: gElCanvas.width / 5, y: gElCanvas.height / 5},
         },
-       ],
-       stickers: [],
-       }
+       ]
 }
 
 const shareData = {

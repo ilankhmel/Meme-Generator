@@ -1,11 +1,16 @@
 html, body {
     overflow-x: hidden;
 }
-body {
+
+html{
+    min-height: 100%;
     position: relative;
-    background-color: rgb(224, 224, 224);
+}
+body {
+    background-color: rgb(241, 241, 241);
     box-sizing: border-box;
     margin: 0;
+   
 }
 
 canvas {
@@ -14,6 +19,7 @@ canvas {
 
 .image-gallery {
     text-align: center;
+    margin-bottom: 23vh;
 }
 
 .gallery-img {
@@ -31,7 +37,7 @@ canvas {
 }
 
 .saved-meme-img {
-    width: 100px;
+    width: 200px;
     height: auto;
     margin: 10px;
 }
@@ -126,7 +132,9 @@ header {
     border-radius: 50%;
 }
 canvas {
-    border: 5px solid black;
+    border: 5px solid #91c3de;
+    border-radius: 10px;
+    box-shadow: -2px 4px 11px 0px;
 }
 
 .meme-controls {
@@ -163,13 +171,15 @@ canvas {
 /* footer */
 
 footer {
+    width: 100%;
     background-color: #1b8cd8;
     height: 22vh;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    
+    position: absolute;
+    bottom: 0;
 }
 
 .footer-logo {
@@ -193,12 +203,16 @@ h4{
 .editor-btn {
     padding: 5px;
     border: none;
-    background-color: white;
+    background-color: #8bd1f7;
     border-radius: 5px;
     width: 40px;
     margin: 5px;
     cursor: pointer;
     font-size: 20px;
+}
+
+.editor-btn>*{
+    color: black;
 }
 
 .text-input {
@@ -221,22 +235,55 @@ h4{
     cursor: pointer;
 }
 
-.saved-memes-title{
+.saved-memes-header{
     text-align: center;
     font-size: 30px;
+    font-family: cursive;
 }
 
 .stickers{
     font-size: 25px;
 }
+.stickers:hover{
+    cursor: pointer;
+}
 
+.stickers > *{
+    
+    background-color:  #8bd1f7;
+    padding: 4px;
+    border-radius: 10px;
+}
+
+label{
+    font-family: cursive;
+    margin: 5px;
+    padding: 8px;
+    color: white;
+    /* background-color: #8bd1f7; */
+    border-radius: 10px;
+}
+
+::placeholder{
+    color: #045a88;
+    
+}
+button {
+    font-family: cursive;
+}
+select{
+    font-family: cursive;
+}
 .categorys{
     display: flex;
     flex-direction: row;
     justify-content: center;
-    background-color: white;
-    padding: 10px;
+    background-color: transparent;
+    /* padding: 3px; */
+    margin-left: 100px;
     cursor: pointer;
+    border-radius: 20px;
+    border: 3px solid rgb(198, 228, 246);
 }
 
 input[type="file"] {
@@ -257,8 +304,11 @@ input[type="file"] {
     display: flex;
     justify-content: start;
     align-items: center;
-    background-color: white;
-    justify-content: space-evenly;
+    background-color: transparent;
+    /* justify-content: space-evenly; */
+    /* margin-left: 82px; */
+    max-width: 85vw;
+    margin: auto;
 }
 .section-btns{
     margin-right: 200px;
@@ -289,6 +339,25 @@ input[type="file"] {
      padding: 20px;
     }
 
+}
+
+@media(max-width:996px) {
+    .section2{
+
+        justify-content: center;
+    }
+    .categorys{
+        display: none;
+    }
+    .section-btns > *{
+        display: block;
+        /* flex-direction: row; */
+        margin: 20px;
+    }
+    .section-btns{
+        display: flex;
+        flex-direction: row;
+    }
 }
 @media(max-width:910px) {
     .filter{
@@ -381,6 +450,7 @@ input[type="file"] {
     margin: 5px;
     color:#1b8cd8;
     font-size: 20px;
+    margin: 13px;
 }
 
 .rtl{

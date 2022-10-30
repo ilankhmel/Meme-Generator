@@ -17,7 +17,6 @@ function onImgSelect(id){
 }
 
 function onSetFilterBy(val){
-    console.log(val);
     setFilterBy(val)
     renderGallery()
 }

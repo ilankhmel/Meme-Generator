@@ -10,8 +10,8 @@ function onInit() {
     renderGallery()
     setFocus()
 
-        resizeCanvas()
-        window.addEventListener('resize', resizeCanvas)
+    resizeCanvas()
+    window.addEventListener('resize', resizeCanvas)
 
     if (!loadFromStorage('saved-memes')) {
         saveToStorage('saved-memes', [])
@@ -21,7 +21,7 @@ function onInit() {
     addListeners()
     renderCategorys()
     icreaseCategorysOnLoad()
-    
+
 }
 var gDefaultLine1Set = false
 var gDefaultLine2Set = false
@@ -30,24 +30,22 @@ var gDefaultLine2Set = false
 function renderMeme() {
 
     var meme = getMeme()
-    console.log(meme);
     var img = makeImg(meme)
-    const { selectedImgId: id, selectedLineIdx: lineIdx, lines ,stickers} = meme
+    const { selectedImgId: id, selectedLineIdx: lineIdx, lines, stickers } = meme
 
 
     setTimeout(() => {
-        gCtx.drawImage(img, 0, 0, img.width, img.height)
+        gCtx.drawImage(img, 0, 0, gElCanvas.width, gElCanvas.height)
         // setCanvasSize()
         lines.forEach((line, idx) => {
-            var { txt, size, align, color, isFocused, stroke ,pos, linewidth, font} = line
+            var { txt, size, align, color, isFocused, isDrag, stroke, pos, linewidth, font } = line
             return drawText(txt, size, align, color, idx, isFocused, stroke, pos, linewidth, font)
         })
 
-        stickers.forEach((sticker)=> drawSticker(sticker.sticker, sticker.pos.x, sticker.pos.y))
+        stickers.forEach((sticker) => drawSticker(sticker.sticker, sticker.pos.x, sticker.pos.y))
     }, 30)
 }
-function drawText(txt, size, align, color, idx, isFocused, stroke, pos, linewidth, font) {
-    console.log(idx);
+function drawText(txt, size, align, color, idx, isFocused, stroke, pos, linewidth, font, isDrag) {
 
     var meme = getMeme()
 
@@ -61,68 +59,66 @@ function drawText(txt, size, align, color, idx, isFocused, stroke, pos, linewidt
     //     txt.strokeStyle = 'cyan'
     // }
 
-    var diff = 0
-    switch (align) {
-        case 'left':
-            // diff = gElCanvas.width / 4 * -0.8
-            pos.x = gElCanvas.width / 5
-            break;
-        case 'right':
-            console.log('here');
-            pos.x  = gElCanvas.width  / 5 * 4
-            break;
-        case 'center':
-            pos.x = gElCanvas.width / 2
-            break;
 
-        default:
-            break;
-    }
+    // switch (align) {
+    //     case 'left':
+    //         pos.x = gElCanvas.width / 5
+    //         break;
+    //     case 'right':
+    //         console.log('here');
+    //         pos.x  = gElCanvas.width  / 5 * 4
+    //         break;
+    //     case 'center':
+    //         pos.x = gElCanvas.width / 2
+    //         break;
 
-    gCtx.fillText(txt, pos.x + diff, pos.y)
-    gCtx.strokeText(txt, pos.x + diff, pos.y)
-    
+    //     default:
+    //         break;
+    // }
+
+    gCtx.fillText(txt, pos.x, pos.y)
+    gCtx.strokeText(txt, pos.x, pos.y)
+
     if (isFocused) {
         let textLength = gCtx.measureText(txt).width
-        console.log(textLength);
         gCtx.beginPath()
         // var length = txt.length * size /2.5
         gCtx.lineWidth = 3
         switch (align) {
             case 'left':
-                gCtx.moveTo(pos.x , pos.y + 10)
-                gCtx.lineTo(pos.x + textLength , pos.y+10)
-                gCtx.lineTo(pos.x + textLength  , pos.y-50)
-                gCtx.lineTo(pos.x , pos.y - 50)
+                gCtx.moveTo(pos.x, pos.y + 10)
+                gCtx.lineTo(pos.x + textLength, pos.y + 10)
+                gCtx.lineTo(pos.x + textLength, pos.y - 50)
+                gCtx.lineTo(pos.x, pos.y - 50)
                 gCtx.closePath()
-                gCtx.strokeStyle = 'orange'
+                gCtx.strokeStyle = '#045a88'
                 gCtx.stroke()
-                
+
                 break;
             case 'center':
 
-                gCtx.moveTo(pos.x - textLength /2 , pos.y + 10)
-                gCtx.lineTo(pos.x + textLength /2, pos.y+10)
-                gCtx.lineTo(pos.x + textLength  /2, pos.y-50)
-                gCtx.lineTo(pos.x - textLength /2 , pos.y - 50)
+                gCtx.moveTo(pos.x - textLength / 2, pos.y + 10)
+                gCtx.lineTo(pos.x + textLength / 2, pos.y + 10)
+                gCtx.lineTo(pos.x + textLength / 2, pos.y - 50)
+                gCtx.lineTo(pos.x - textLength / 2, pos.y - 50)
                 gCtx.closePath()
-                gCtx.strokeStyle = 'orange'
+                gCtx.strokeStyle = '#045a88'
                 gCtx.stroke()
-                
+
                 break;
-        
+
             case 'right':
 
-                gCtx.moveTo(pos.x , pos.y + 10)
-                gCtx.lineTo(pos.x - textLength , pos.y+10)
-                gCtx.lineTo(pos.x - textLength  , pos.y-50)
-                gCtx.lineTo(pos.x , pos.y - 50)
+                gCtx.moveTo(pos.x, pos.y + 10)
+                gCtx.lineTo(pos.x - textLength, pos.y + 10)
+                gCtx.lineTo(pos.x - textLength, pos.y - 50)
+                gCtx.lineTo(pos.x, pos.y - 50)
                 gCtx.closePath()
-                gCtx.strokeStyle = 'orange'
+                gCtx.strokeStyle = '#045a88'
                 gCtx.stroke()
-                
+
                 break;
-        
+
             default:
                 break;
         }
@@ -131,17 +127,17 @@ function drawText(txt, size, align, color, idx, isFocused, stroke, pos, linewidt
     // if (idx === 0) {
     //     console.log(diff);
     //         setStartPosLine1(meme)
-            
+
     //         function setStartPosLine1(meme){
     //             if(gDefaultLine1Set) return
     //             meme.lines[0].pos = {x: x, y: gElCanvas.height / 5}
     //             gDefaultLine1Set = true
     //         }
-            
+
     //         gCtx.fillText(txt, pos.x + diff, pos.y)
     //         gCtx.strokeText(txt, pos.x + diff, pos.y)
-      
-        
+
+
 
     //     if (isFocused) {
     //         gCtx.beginPath()
@@ -163,7 +159,7 @@ function drawText(txt, size, align, color, idx, isFocused, stroke, pos, linewidt
     // } else if (idx === 1) {
 
     //     setStartPosLine2(meme)
-            
+
     //         function setStartPosLine2(meme){
     //             if(gDefaultLine2Set) return
     //             meme.lines[1].pos = {x: x, y: gElCanvas.height - gElCanvas.height / 5}
@@ -175,7 +171,7 @@ function drawText(txt, size, align, color, idx, isFocused, stroke, pos, linewidt
     //         gCtx.strokeText(txt, pos.x + diff, pos.y)
 
 
-        
+
     //     if (isFocused) {
     //         gCtx.beginPath()
     //         var length = txt.length * size /2.5
@@ -222,26 +218,53 @@ function drawText(txt, size, align, color, idx, isFocused, stroke, pos, linewidt
 // var gElCanvasHeight
 // var gElCanvasWidth
 
+function alignText(align) {
+    var meme = getMeme()
+    meme.lines.forEach((line) => {
+
+        switch (align) {
+            case 'left':
+                line.pos.x = gElCanvas.width / 5
+                break;
+            case 'right':
+                line.pos.x = gElCanvas.width / 5 * 4
+                break;
+            case 'center':
+                line.pos.x = gElCanvas.width / 2
+                break;
+
+            default:
+                break;
+        }
+    }
+
+    )
+}
+
+var gRatio
 function makeImg(meme) {
     const img = new Image()
     img.src = getImageById(meme.selectedImgId).url
     // console.log(img);
-    
+
     // height = img.height
     // width = img.width
 
-    // var ratio = img.height / img.width
-    gElCanvas.height = gElCanvas.width  *  img.height / img.width
-    img.height = gElCanvas.height
-    img.width = gElCanvas.width
+    var ratio = img.height / img.width
+    if(gRatio !== ratio){
+        gElCanvas.height = gElCanvas.width * img.height / img.width
+        img.height = gElCanvas.height
+        img.width = gElCanvas.width
+        gRatio = ratio
+    }
     return img
     // setCanvasSize(height, width)
 
     // function setCanvasSize(height, width, ratio){
-        // var gElCanvasContainer = document.querySelector('.canvas-container')
-        // gElCanvasContainer = height
-        // gElCanvasContainer = width 
-        // gElCanvas.width = width
+    // var gElCanvasContainer = document.querySelector('.canvas-container')
+    // gElCanvasContainer = height
+    // gElCanvasContainer = width 
+    // gElCanvas.width = width
 
     // }
 }
@@ -286,11 +309,11 @@ function onChangeFocus() {
 }
 
 function resizeCanvas() {
-   
-    if(window.innerWidth < 560){
 
-        gCtx.canvas.width  = screen.width - 1050;
-      gCtx.canvas.height = screen.height - 550;
+    if (window.innerWidth < 560) {
+
+        gCtx.canvas.width = screen.width - 1050;
+        gCtx.canvas.height = screen.height - 550;
         renderMeme()
     }
 }
@@ -394,25 +417,25 @@ function addTouchListeners() {
 var gStartPos
 var gClickedTextIdx = 0
 function onDown(ev) {
-   onDownText(ev)
-    onDownSticker(ev)
+    onDownText(ev)
+    // onDownSticker(ev)
 }
 
 function onMove(ev) {
     onMoveText(ev)
-    onMoveSticker(ev)
+    // onMoveSticker(ev)
 
 }
 function onUp() {
     onUpText()
-    onUpSticker()
+    // onUpSticker()
 }
 
-function onDownText(ev){
+function onDownText(ev) {
     console.log('Im from onDown')
     const pos = getEvPos(ev)
     console.log(pos);
-     gClickedTextIdx = whatIsClicked(pos)
+    gClickedTextIdx = whatIsClicked(pos)
     if (gClickedTextIdx < 0) return
     console.log(gClickedTextIdx);
     console.log(gClickedTextIdx, 'is clicked');
@@ -421,20 +444,21 @@ function onDownText(ev){
     document.body.style.cursor = 'grabbing'
 }
 
-function onMoveText(ev){
-  
-    if(gClickedTextIdx === 'undefined' || gClickedTextIdx < 0) return
+function onMoveText(ev) {
+
+    if (gClickedTextIdx === 'undefined' || gClickedTextIdx < 0) return
     const { isDrag } = gMeme.lines[gClickedTextIdx]
     if (!isDrag) return
     const pos = getEvPos(ev)
     const dx = pos.x - gStartPos.x
     const dy = pos.y - gStartPos.y
+    // console.log(dx);
     moveText(dx, dy, gClickedTextIdx)
     gStartPos = pos
     renderMeme()
 }
 
-function onUpText(){
+function onUpText() {
     console.log('Im from onUp')
     document.body.style.cursor = 'grab'
     if (gClickedTextIdx < 0) return
@@ -444,11 +468,11 @@ function onUpText(){
 
 var gClickedStickerIdx
 
-function onDownSticker(ev){
+function onDownSticker(ev) {
     console.log('Im from onDown')
     const pos = getEvPos(ev)
     console.log(pos);
-     gClickedStickerIdx = whatStickerClicked(pos)
+    gClickedStickerIdx = whatStickerClicked(pos)
     if (gClickedStickerIdx < 0) return
     console.log(gClickedStickerIdx, 'sticker is clicked');
     setStickerDrag(true, gClickedStickerIdx)
@@ -456,24 +480,24 @@ function onDownSticker(ev){
     document.body.style.cursor = 'grabbing'
 }
 
-function onMoveSticker(ev){
-    
-    if(gClickedStickerIdx === 'undefined' || gClickedStickerIdx < 0) return
-    if(gMeme.stickers = []) return
+function onMoveSticker(ev) {
+
+    if (gClickedStickerIdx === 'undefined' || gClickedStickerIdx < 0) return
+    if (gMeme.stickers = []) return
     const { isDrag } = gMeme.stickers[gClickedStickerIdx]
     if (!isDrag) return
     console.log('dragged');
     const pos = getEvPos(ev)
-   
+
     const dx = pos.x - gStartPos.x
     const dy = pos.y - gStartPos.y
-    
+
     moveSticker(dx, dy, gClickedStickerIdx)
     gStartPos = pos
-    renderMeme()  
+    renderMeme()
 }
 
-function onUpSticker(){
+function onUpSticker() {
     console.log('Im from onUp')
     document.body.style.cursor = 'grab'
     if (gClickedStickerIdx < 0) return
@@ -485,31 +509,32 @@ function onUpSticker(){
 function getEvPos(ev) {
     const TOUCH_EVS = ['touchstart', 'touchmove', 'touchend']
     let pos = {
-      x: ev.offsetX,
-      y: ev.offsetY
+        x: ev.offsetX,
+        y: ev.offsetY
     }
-   
+
     if (TOUCH_EVS.includes(ev.type)) {
-      
-      ev.preventDefault()
-     
-      ev = ev.changedTouches[0]
-     
-      pos = {
-        x: ev.pageX - ev.target.offsetLeft - ev.target.clientLeft,
-        y: ev.pageY - ev.target.offsetTop - ev.target.clientTop
-      }
+
+        ev.preventDefault()
+
+        ev = ev.changedTouches[0]
+
+        pos = {
+            x: ev.pageX - ev.target.offsetLeft - ev.target.clientLeft,
+            y: ev.pageY - ev.target.offsetTop - ev.target.clientTop
+        }
     }
     return pos
-  }
+}
 
 
-function onChangeAlign(dir){
+function onChangeAlign(dir) {
     changeAlign(dir)
+    alignText(dir)
     renderMeme()
 }
 
-function showEditor(){
+function showEditor() {
     document.querySelector('.image-gallery').style.display = 'none'
     document.querySelector('.share-container').style.display = 'none'
     document.querySelector('.about-me').style.display = 'none'
@@ -518,10 +543,10 @@ function showEditor(){
     document.querySelector('.share-container').style.display = 'none'
     document.querySelector('.search-bar').style.display = 'none'
     document.querySelector('.section2').style.display = 'none'
-    
+
 }
 
-function onShowGallery(){
+function onShowGallery() {
     document.querySelector('.image-gallery').style.display = 'block'
     document.querySelector('.share-container').style.display = 'block'
     document.querySelector('.about-me').style.display = 'flex'
@@ -532,10 +557,11 @@ function onShowGallery(){
     document.querySelector('.section2').style.display = 'flex'
     onSetFilterBy('')
     onDeleteLine()
-    
+    resetLines()
+
 }
 
-function onShowMemes(){
+function onShowMemes() {
     document.querySelector('.search-bar').style.display = 'none'
     document.querySelector('.image-gallery').style.display = 'none'
     document.querySelector('.share-container').style.display = 'none'
@@ -547,18 +573,19 @@ function onShowMemes(){
 
 }
 
-function onDeleteLine(){
+function onDeleteLine() {
     deleteLine()
     document.querySelector('.text-input').value = ''
+    resetLines()
     renderMeme()
 }
 
-function onSetFont(val){
+function onSetFont(val) {
     setFont(val)
     renderMeme()
 }
 
-function onSetSticker(el){
+function onSetSticker(el) {
     onAddLine()
     setLineText(el.innerHTML, gFocus)
     renderMeme()
@@ -566,90 +593,87 @@ function onSetSticker(el){
     // saveSticker(span.innerText, gElCanvas.width/2 , gElCanvas.height / 2)
 }
 
-function drawSticker(sticker, x, y){
-    gCtx.fillText(sticker, x , y)
+function drawSticker(sticker, x, y) {
+    gCtx.fillText(sticker, x, y)
 
 }
 
 // The next 2 functions handle IMAGE UPLOADING to img tag from file system: 
 function onImgInput(ev) {
     loadImageFromInput(ev, renderImg)
-  }
-  
- 
-  function loadImageFromInput(ev, onImageReady) {
+}
+
+
+function loadImageFromInput(ev, onImageReady) {
     showEditor()
     const reader = new FileReader()
-   
+
     reader.onload = function (event) {
-      let img = new Image() 
-      img.src = event.target.result 
-     
-      img.onload = () => onImageReady(img)
+        let img = new Image()
+        img.src = event.target.result
+
+        img.onload = () => onImageReady(img)
     }
-    reader.readAsDataURL(ev.target.files[0]) 
-  
-    
-  }
-  
-  
-  function renderImg(img) {
-   
+    reader.readAsDataURL(ev.target.files[0])
+
+
+}
+
+
+function renderImg(img) {
+
     gCtx.drawImage(img, 0, 0, gElCanvas.width, gElCanvas.height)
     var id = +makeId()
     console.log(id);
-    gImgs.push({id: id, url: img.src, keywords: []})
+    gImgs.push({ id: id, url: img.src, keywords: [] })
     gMeme.selectedImgId = id
 
     renderMeme()
-  } 
-
-
-function renderCategorys(){
-    var strHTMLs = ''
-    for (const key in gKeywordSearchCountMap) {
-        strHTMLs +=  `<div data-trans="${key}" class="category ${key}" onclick="onIncreaseCountAndFilter('${key}')">${key}</div>`
-        }
-        console.log(strHTMLs);
-        document.querySelector('.categorys').innerHTML = strHTMLs
-    }
-   
-    
-function onIncreaseCountAndFilter(filter){
-    onSetFilterBy(filter)
-    var map = getKeywordsMap()
-    console.log(map[filter]);
-    map[filter]++
-    console.log(map[filter]);
-    console.dir(document.querySelector(`.${filter}`));
-    document.querySelector(`.${filter}`).style.fontSize = `${map[filter] + 20}px`
-    
 }
 
-function icreaseCategorysOnLoad(){
+
+function renderCategorys() {
+    var strHTMLs = ''
+    for (const key in gKeywordSearchCountMap) {
+        strHTMLs += `<div data-trans="${key}" class="category ${key}" onclick="onIncreaseCountAndFilter('${key}')">${key}</div>`
+    }
+    document.querySelector('.categorys').innerHTML = strHTMLs
+}
+
+
+function onIncreaseCountAndFilter(filter) {
+    onSetFilterBy(filter)
+    var map = getKeywordsMap()
+    map[filter]++
+    // console.dir(document.querySelector(`.${filter}`));
+    document.querySelector(`.${filter}`).style.fontSize = `${map[filter] + 20}px`
+
+}
+
+function icreaseCategorysOnLoad() {
     var map = getKeywordsMap()
     for (const key in map) {
-            onIncreaseCountAndFilter(key)
-        }
-        onSetFilterBy('')
+        onIncreaseCountAndFilter(key)
     }
-function onSetLang(lang){
+    onSetFilterBy('')
+}
+function onSetLang(lang) {
     setLang(lang)
     doTrans()
     setDirection()
     updateLang()
 }
 
-function setDirection(){
+function setDirection() {
     var lang = getCurrLang()
-    if(lang === 'he'){
+    if (lang === 'he') {
         document.querySelector('body').classList.add('rtl')
-    }else{
+    } else {
         document.querySelector('body').classList.remove('rtl')
     }
 }
 
-function updateLang(){
+function updateLang() {
     doTrans(getCurrLang())
     setDirection()
     setQueryParams()
