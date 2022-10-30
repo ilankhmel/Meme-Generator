@@ -1,3 +1,6 @@
+gElCanvas = document.querySelector('canvas')
+console.log(gElCanvas);
+//textWidth
 var gKeywordSearchCountMap = 
 {'funny': 12,
 // 'cat': 0,
@@ -13,13 +16,14 @@ var gImgs = [
 ];
 var gId = 0
 var gFilter = ''
+
 var gMeme = {
  selectedImgId: 1,
  selectedLineIdx: 0,
  lines: [
  {
  txt: 'My Text',
- size: 70,
+ size: 50,
  align: 'left',
  color: 'white',
  stroke: 'black',
@@ -27,6 +31,7 @@ var gMeme = {
  isDrag: false,
  linewidth: 1,
  font: 'Arial',
+ pos: {x: gElCanvas.width / 3, y: gElCanvas.height / 5},
  },
 ],
 stickers: [],
@@ -55,7 +60,7 @@ var keyMap = {
 function createImages(){
      for (const key in keyMap) {
         gImgs.push(
-            createImage(`meme-imgs(square)/${key}.jpg`, keyMap[key])
+            createImage(`images/${key}.jpg`, keyMap[key])
         )
         }
 }
@@ -110,7 +115,18 @@ function setTextSize(size, idx){
 }
 
 function addLine(txt = ''){
-    var idx = gMeme.lines.length - 1
+    console.log(gMeme.lines);
+    console.log(gMeme.lines.length);
+    var idx = gMeme.lines.length - 0
+    console.log(idx);
+    var pos
+    if(idx === 1){
+        pos = {x: gElCanvas.width / 3, y: gElCanvas.height - gElCanvas.height / 5}
+    }else{
+        pos =  {x: gElCanvas.width / 3, y: gElCanvas.height - gElCanvas.height / 2}
+    }
+
+    console.log(pos);
     gMeme.lines.push(
         {
             txt,
@@ -122,6 +138,7 @@ function addLine(txt = ''){
             isDrag: false,
             linewidth: 1,
             font: 'Arial',
+            pos
             }
     )
 }
@@ -206,9 +223,9 @@ function setTextDrag(bool, idx){
 
 
 function moveText(dx, dy, idx) {
-    console.log(gMeme.lines[idx].pos.x);
+    // console.log(gMeme.lines[idx].pos.x);
     gMeme.lines[idx].pos.x += dx
-    console.log(gMeme.lines[idx].pos.x);
+    // console.log(gMeme.lines[idx].pos.x);
     gMeme.lines[idx].pos.y += dy 
   }
 
@@ -251,9 +268,9 @@ function setStickerDrag(bool,idx){
 }
 
 function moveSticker(dx, dy, idx) {
-    console.log(gMeme.stickers[idx].pos.x);
+    // console.log(gMeme.stickers[idx].pos.x);
     gMeme.stickers[idx].pos.x += dx
-    console.log(gMeme.stickers[idx].pos.x);
+    // console.log(gMeme.stickers[idx].pos.x);
     gMeme.stickers[idx].pos.y += dy 
   }
 

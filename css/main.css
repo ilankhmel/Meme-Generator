@@ -22,6 +22,7 @@ canvas {
     margin: 10px;
     border-radius: 10px;
     box-shadow: -3px 5px 19px 0px;
+    object-fit: cover;
 }
 .gallery-img:hover {
    border: 1px solid gray;
@@ -100,7 +101,8 @@ header {
 
 .meme-editor {
     margin: 10px;
-    justify-content: space-evenly;
+    justify-content: center;
+    align-items: center;
     display: none;
 }
 
@@ -109,7 +111,7 @@ header {
 }
 
 .canvas-container {
-    aspect-ratio: 1/1;
+    /* aspect-ratio: 1/1; */
 }
 
 .about-me {
@@ -196,6 +198,7 @@ h4{
     width: 40px;
     margin: 5px;
     cursor: pointer;
+    font-size: 20px;
 }
 
 .text-input {
