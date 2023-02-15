@@ -1,4 +1,4 @@
-Meme Generator App
+Meme Generator App - Github Pages link - https://ilankhmel.github.io/Meme-Generator/
 
 An app I built during the bootcamp, using Vanilla JS.
 
